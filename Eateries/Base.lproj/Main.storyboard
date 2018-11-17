@@ -431,6 +431,7 @@
                         <outlet property="imageView" destination="R4z-FI-eTd" id="inW-m1-irK"/>
                         <outlet property="nameTextField" destination="r3V-XR-edg" id="8pz-dm-tPA"/>
                         <outlet property="noButton" destination="dTq-OX-rp6" id="lN6-xC-CIr"/>
+                        <outlet property="typeTextField" destination="JY3-kt-qiN" id="cvq-6f-v4v"/>
                         <outlet property="yesButton" destination="MaX-yK-i4L" id="b3H-6M-dTb"/>
                     </connections>
                 </tableViewController>

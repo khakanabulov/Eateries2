@@ -5,6 +5,8 @@
 //  Created by Хакан Абулов on 12/11/2018.
 //  Copyright © 2018 Хакан Абулов. All rights reserved.
 //
+//все инициализации с image изменены с UIImage(named:) на UIImage(data: ...! as Data), т.к. теперь image имеет тип BinaryData (Ввели CoreData)
+
 
 import UIKit
 

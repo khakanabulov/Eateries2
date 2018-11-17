@@ -16,23 +16,49 @@ class NewEateryTableViewController: UITableViewController, UIImagePickerControll
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var noButton: UIButton!
+    var isVisited = false
     
 
     @IBAction func toggleIsVisitedPressed(_ sender: UIButton) {
         if sender == yesButton {
             sender.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
             noButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            isVisited = true
         } else {
             sender.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             yesButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            isVisited = false
         }
         
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         if nameTextField.text == "" || adressTextField.text == "" || typeTextField.text == "" {
-            print("Не все поля заполнены")
+            let alert = UIAlertController(title: "Не все поля заполнены", message: "Заполните все поля", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "ОК", style: .default, handler: nil)
+            alert.addAction(alertAction)
+            self.present(alert, animated: true, completion: nil)
         } else {
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext // инициализируем контекст
+            {
+                let restaurant = Restaurant(context: context) // создали экземляр ресторана помещенный в контекст
+                restaurant.name = nameTextField.text
+                restaurant.location = adressTextField.text
+                restaurant.type = typeTextField.text
+                restaurant.isVisited = isVisited
+                if let image = imageView.image {
+                    restaurant.image = image.pngData() // передали фото
+                // сохранили изменения в контексте, но еще не сохранили сам контекст
+                }
+                do {
+                    try context.save()
+                    print("Сохранение удалось")
+                } catch let error as NSError {
+                    print("Не удалось сохранить данный \(error) \(error.userInfo)")
+                }
+            }
+            
+            
             performSegue(withIdentifier: "unwindSegueFromNewEatery", sender: self)
         }
     }
