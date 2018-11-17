@@ -14,7 +14,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    lazy var coreDataStack = CoreDataStack() // lazy - чтобы переменная не инициализировалась без необходимости
+    lazy var coreDataStack = CoreDataStack() // lazy - чтобы переменная не инициализировалась без необходимости(инициализируется только при вызове)
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

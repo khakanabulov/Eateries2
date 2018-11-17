@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class EateriesTableViewController: UITableViewController {
-
+    var fetchResultsController: NSFetchedResultsController<Restaurant>! // нужен для получения данных(Хорошо работает с TableView)
     var restaurants: [Restaurant] = []
+    
 //        Restaurant(name: "ФАРШ", type: "ресторан", location: "Москва", image: "FARSH.jpg", isVisited: false),
 //        Restaurant(name: "Баскин Робинс", type: "ресторан-мороженное", location: "Москва", image: "BR.jpg", isVisited: false),
 //        Restaurant(name: "Тануки", type: "Суши-ресторан", location: "Москва", image: "tanuki.jpg", isVisited: false),
@@ -28,6 +30,7 @@ class EateriesTableViewController: UITableViewController {
 //        Restaurant(name: "Бочка", type: "ресторан", location:  "1905 Года ул., 2, Москва", image: "bochka.jpg", isVisited: false)]
     
     @IBAction func close(segue: UIStoryboardSegue) {}
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.hidesBarsOnSwipe = true //возвращаем свойство навигэйшен контроллеру прятаться при скролле
     }
@@ -36,15 +39,23 @@ class EateriesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         
-        tableView.estimatedRowHeight = 85
-        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 85 // устанавливаем ожидаемую высоту ячейки
+        tableView.rowHeight = UITableView.automaticDimension // устанавливаем автоматическое вычисление высоты
         
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // убираем имя на кнопке возвращения, чтобы оно не смещало название выбранного ресторана
+        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию
+        fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу
+        
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            do {
+                try fetchResultsController.performFetch() // выполняет запрос на выбору, пункт throws обязывает использовать try
+                restaurants = fetchResultsController.fetchedObjects! // передаем в массив ресторанов то, что мы получили из запроса
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
     }
 
     // MARK: - Table view data source
@@ -73,7 +84,7 @@ class EateriesTableViewController: UITableViewController {
 //        } else {
 //            cell.accessoryType = .none
 //        }
-        cell.accessoryType = self.restaurants[indexPath.row].isVisited ? .checkmark : .none
+        cell.accessoryType = self.restaurants[indexPath.row].isVisited ? .checkmark : .none // Если ресторан посещали, добавляем в правой части галочку
         return cell
     }
     

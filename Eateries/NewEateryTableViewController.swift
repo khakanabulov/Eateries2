@@ -39,7 +39,7 @@ class NewEateryTableViewController: UITableViewController, UIImagePickerControll
             alert.addAction(alertAction)
             self.present(alert, animated: true, completion: nil)
         } else {
-            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext // инициализируем контекст
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext // инициализируем(добираемся до) контекст(а)
             {
                 let restaurant = Restaurant(context: context) // создали экземляр ресторана помещенный в контекст
                 restaurant.name = nameTextField.text
@@ -47,10 +47,11 @@ class NewEateryTableViewController: UITableViewController, UIImagePickerControll
                 restaurant.type = typeTextField.text
                 restaurant.isVisited = isVisited
                 if let image = imageView.image {
-                    restaurant.image = image.pngData() // передали фото
+                    restaurant.image = image.pngData() // преобразовываем PNG в Binary Data
                 // сохранили изменения в контексте, но еще не сохранили сам контекст
                 }
                 do {
+                    // пытаемся сохранить контекст
                     try context.save()
                     print("Сохранение удалось")
                 } catch let error as NSError {
