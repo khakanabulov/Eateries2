@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EateriesTableViewController: UITableViewController {
+class EateriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     var fetchResultsController: NSFetchedResultsController<Restaurant>! // нужен для получения данных(Хорошо работает с TableView)
     var restaurants: [Restaurant] = []
     
@@ -44,13 +44,14 @@ class EateriesTableViewController: UITableViewController {
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // убираем имя на кнопке возвращения, чтобы оно не смещало название выбранного ресторана
         let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию(указание того как мы хотим видеть выходные данные)
         fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу
         
         if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
-            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil) // инициализируем FetchResultController
+            fetchResultsController.delegate = self // подписываемся под то, что будем реализовывать методы протокола NSFetchedResultsControllerDelegate
             do {
-                try fetchResultsController.performFetch() // выполняет запрос на выбору, пункт throws обязывает использовать try
+                try fetchResultsController.performFetch() // пытаемся получить данные, выполняет запрос на получение, пункт throws обязывает использовать try
                 restaurants = fetchResultsController.fetchedObjects! // передаем в массив ресторанов то, что мы получили из запроса
             } catch let error as NSError {
                 print(error.localizedDescription)
@@ -58,6 +59,38 @@ class EateriesTableViewController: UITableViewController {
         }
     }
 
+    // MARK: - Fetch Results Controller Delegate
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { //контроллер вызывается перед тем как наш TableView поменяет свой контент
+        tableView.beginUpdates() // метод предупреждает TableView, что сейчас будут обновления
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        // прописали все случаи возможных изменений наших ресторанов
+        //добавления
+        //удаления
+        //изменения
+        // по дефолту обнови все
+        switch type {
+        case .insert:
+            guard let indexPath = newIndexPath else { break }
+            tableView.insertRows(at: [indexPath], with: .fade)
+        case .delete:
+            guard let indexPath = newIndexPath else { break }
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        case .update:
+            guard let indexPath = newIndexPath else { break }
+            tableView.reloadRows(at: [indexPath], with: .fade)
+        default:
+            tableView.reloadData()
+        }
+        restaurants = controller.fetchedObjects as! [Restaurant] // обновляем массив ресторанов
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { // предупредили TableView, что череда изменений закончилась
+        tableView.endUpdates()
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,7 +151,7 @@ class EateriesTableViewController: UITableViewController {
 //    }
 
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? { //добавление всплывашек справа от ячейки
-        let share = UITableViewRowAction(style: .default, title: "Поделиться") { (action, indexPath) in
+        let share = UITableViewRowAction(style: .default, title: "Поделиться") { (action, indexPath) in // добавляем всплывашку "Поделиться"
             
             let defaultText = "Я сейчас в " + self.restaurants[indexPath.row].name!
             if let image = UIImage(data: self.restaurants[indexPath.row].image! as Data)//UIImage(named: self.restaurants[indexPath.row].image)
@@ -128,9 +161,19 @@ class EateriesTableViewController: UITableViewController {
             }
         }
         
-        let delete = UITableViewRowAction(style: .default, title: "Удалить") { (action, indexPаth) in
+        let delete = UITableViewRowAction(style: .default, title: "Удалить") { (action, indexPаth) in // добавляем всплывашку "Удалить"
             self.restaurants.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+                let objectToDelete = self.fetchResultsController.object(at: indexPath) // выделяем объект для удаления
+                context.delete(objectToDelete) // удаляем объект из контекста
+                
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
         }
         share.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         delete.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
