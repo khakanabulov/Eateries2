@@ -20,7 +20,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         let geocoder = CLGeocoder() //  из текстового формата адреса преобразовывает в широту и долготу(и наоборот умеет)
-        geocoder.geocodeAddressString(restaurant.location) { (placemarks, error) in // placemarks -  массив возможных адресов
+        geocoder.geocodeAddressString(restaurant.location!) { (placemarks, error) in // placemarks -  массив возможных адресов
             guard error == nil else {return}
             guard let placemarks = placemarks else {return}
             let placemark = placemarks.first! // берем первый адрес из массива
@@ -47,7 +47,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotationView?.canShowCallout = true // позволяем отображать дополнительную информацию аннотации
         }
         let rigthImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)) // создаем рамку для ImageView, который поместим в annotationView
-        rigthImage.image = UIImage(named: restaurant.image) // помещаем картинку в рамку
+        rigthImage.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurant.image) // помещаем картинку в рамку
         annotationView?.rightCalloutAccessoryView = rigthImage // помещаем кратинку с рамкой в правую часть annotationView
         annotationView?.pinTintColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1) //изменяем цвет иголочки
         return annotationView

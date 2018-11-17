@@ -10,22 +10,22 @@ import UIKit
 
 class EateriesTableViewController: UITableViewController {
 
-    var restaurants: [Restaurant] = [
-        Restaurant(name: "ФАРШ", type: "ресторан", location: "Москва", image: "FARSH.jpg", isVisited: false),
-        Restaurant(name: "Баскин Робинс", type: "ресторан-мороженное", location: "Москва", image: "BR.jpg", isVisited: false),
-        Restaurant(name: "Тануки", type: "Суши-ресторан", location: "Москва", image: "tanuki.jpg", isVisited: false),
-        Restaurant(name: "Дастархан", type: "ресторан", location: "Москва, ул. Новый Арбат, 13", image: "dastarhan.jpg", isVisited: false),
-        Restaurant(name: "Кафе Пушкинъ", type: "ресторан", location: "Москва", image: "indokitay.jpg", isVisited: false),
-        Restaurant(name: "X.O", type: "ресторан-клуб", location: "Москва", image: "x.o.jpg", isVisited: false),
-        Restaurant(name: "Балкан Гриль", type: "ресторан", location: "Москва", image: "balkan.jpg", isVisited: false),
-        Restaurant(name: "Respublica", type: "ресторан", location: "ул. 1-я Тверская-Ямская, 10, Москва", image: "respublika.jpg", isVisited: false),
-        Restaurant(name: "Прага", type: "ресторанный", location: "Москва", image: "praga.jpg", isVisited: false),
-        Restaurant(name: "Sixty", type: "ресторан", location: "Пресненская наб., 12, Москва", image: "sixty.jpg", isVisited: false),
-        Restaurant(name: "Вкусные истории", type: "ресторан-кондитерская", location: "Старокачаловская ул., 5, Москва", image: "istorii.jpg", isVisited: false),
-        Restaurant(name: "Валенок", type: "ресторан", location: "Цветной б-р, 5, Москва", image: "valenok.jpg", isVisited: false),
-        Restaurant(name: "Sempre Moscow", type: "ресторан", location: "ул. Большая Дмитровка, 22, Москва", image: "sempre.jpg", isVisited: false),
-        Restaurant(name: "Карлосон", type: "ресторан", location: "Овчинниковская наб., 20 стр1, Москва", image: "karlson.jpg", isVisited: false),
-        Restaurant(name: "Бочка", type: "ресторан", location:  "1905 Года ул., 2, Москва", image: "bochka.jpg", isVisited: false)]
+    var restaurants: [Restaurant] = []
+//        Restaurant(name: "ФАРШ", type: "ресторан", location: "Москва", image: "FARSH.jpg", isVisited: false),
+//        Restaurant(name: "Баскин Робинс", type: "ресторан-мороженное", location: "Москва", image: "BR.jpg", isVisited: false),
+//        Restaurant(name: "Тануки", type: "Суши-ресторан", location: "Москва", image: "tanuki.jpg", isVisited: false),
+//        Restaurant(name: "Дастархан", type: "ресторан", location: "Москва, ул. Новый Арбат, 13", image: "dastarhan.jpg", isVisited: false),
+//        Restaurant(name: "Кафе Пушкинъ", type: "ресторан", location: "Москва", image: "indokitay.jpg", isVisited: false),
+//        Restaurant(name: "X.O", type: "ресторан-клуб", location: "Москва", image: "x.o.jpg", isVisited: false),
+//        Restaurant(name: "Балкан Гриль", type: "ресторан", location: "Москва", image: "balkan.jpg", isVisited: false),
+//        Restaurant(name: "Respublica", type: "ресторан", location: "ул. 1-я Тверская-Ямская, 10, Москва", image: "respublika.jpg", isVisited: false),
+//        Restaurant(name: "Прага", type: "ресторанный", location: "Москва", image: "praga.jpg", isVisited: false),
+//        Restaurant(name: "Sixty", type: "ресторан", location: "Пресненская наб., 12, Москва", image: "sixty.jpg", isVisited: false),
+//        Restaurant(name: "Вкусные истории", type: "ресторан-кондитерская", location: "Старокачаловская ул., 5, Москва", image: "istorii.jpg", isVisited: false),
+//        Restaurant(name: "Валенок", type: "ресторан", location: "Цветной б-р, 5, Москва", image: "valenok.jpg", isVisited: false),
+//        Restaurant(name: "Sempre Moscow", type: "ресторан", location: "ул. Большая Дмитровка, 22, Москва", image: "sempre.jpg", isVisited: false),
+//        Restaurant(name: "Карлосон", type: "ресторан", location: "Овчинниковская наб., 20 стр1, Москва", image: "karlson.jpg", isVisited: false),
+//        Restaurant(name: "Бочка", type: "ресторан", location:  "1905 Года ул., 2, Москва", image: "bochka.jpg", isVisited: false)]
     
     @IBAction func close(segue: UIStoryboardSegue) {}
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +62,7 @@ class EateriesTableViewController: UITableViewController {
    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EateriesTableViewCell
-        cell.thumbnailImageView.image = UIImage(named: restaurants[indexPath.row].image)
+        cell.thumbnailImageView.image = UIImage(data: restaurants[indexPath.row].image! as Data)//UIImage(named: restaurants[indexPath.row].image)
         cell.thumbnailImageView.layer.cornerRadius = 32.5
         cell.thumbnailImageView.clipsToBounds = true
         cell.nameLabel.text = restaurants[indexPath.row].name
@@ -109,8 +109,9 @@ class EateriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? { //добавление всплывашек справа от ячейки
         let share = UITableViewRowAction(style: .default, title: "Поделиться") { (action, indexPath) in
             
-            let defaultText = "Я сейчас в " + self.restaurants[indexPath.row].name
-            if let image = UIImage(named: self.restaurants[indexPath.row].image) {
+            let defaultText = "Я сейчас в " + self.restaurants[indexPath.row].name!
+            if let image = UIImage(data: self.restaurants[indexPath.row].image! as Data)//UIImage(named: self.restaurants[indexPath.row].image)
+            {
                 let activityController = UIActivityViewController(activityItems: [defaultText, image], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
             }

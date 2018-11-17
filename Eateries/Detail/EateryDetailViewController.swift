@@ -40,7 +40,7 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
         tableView.estimatedRowHeight = 38
         tableView.rowHeight = UITableView.automaticDimension
         
-        imageView.image = UIImage(named: restaurant!.image)
+        imageView.image = UIImage(data: restaurant!.image! as Data)//UIImage(named: restaurant!.image)
 //        tableView.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
 //        tableView.separatorColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
         tableView.tableFooterView = UIView(frame: CGRect.zero) // убирает деления под ячейкам(где их нет)
