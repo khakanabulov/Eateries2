@@ -162,7 +162,7 @@
                                 </constraints>
                                 <state key="normal" image="good"/>
                                 <connections>
-                                    <segue destination="vvv-WU-o9L" kind="showDetail" id="oPO-jo-9Pw"/>
+                                    <segue destination="vvv-WU-o9L" kind="showDetail" identifier="segueToRate" id="oPO-jo-9Pw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZe-vG-ekq">

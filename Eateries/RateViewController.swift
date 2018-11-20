@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class RateViewController: UIViewController {
 
@@ -15,6 +16,9 @@ class RateViewController: UIViewController {
     @IBOutlet weak var goodButton: UIButton!
     @IBOutlet weak var brilliantButton: UIButton!
     var restRating: String?
+    var restaurant: Restaurant?
+    var restaurats: [Restaurant] = []
+    var fetchResultsController: NSFetchedResultsController<Restaurant>!
     
     @IBAction func rateRestaurant(sender: UIButton) {
         switch sender.tag {
@@ -23,6 +27,45 @@ class RateViewController: UIViewController {
         case 2: restRating = "brilliant"
         default: break
         }
+
+        //restaurant!.rate = restRating
+//        let context = (UIApplication.shared.delegate as! AppDelegate).coreDataStack.persistentContainer.viewContext
+//        //context.delete(restaurant!)
+//        let restarauntRefreshed = NSEntityDescription.insertNewObject(forEntityName: "Restaurant", into: context)
+//        restarauntRefreshed.setValue(restaurant!.name, forKey: "name")
+//        restarauntRefreshed.setValue(restaurant!.location, forKey: "location")
+//        restarauntRefreshed.setValue(restaurant!.type, forKey: "type")
+//        restarauntRefreshed.setValue(restaurant!.isVisited, forKey: "isVisited")
+//        restarauntRefreshed.setValue(restaurant!.rate, forKey: "rate")
+//        restarauntRefreshed.setValue(restaurant!.image, forKey: "image")
+//        do {
+//            // пытаемся сохранить контекст
+//            try context.save()
+//            print("Сохранение удалось")
+//        } catch let error as NSError {
+//            print("Не удалось сохранить данный \(error) \(error.userInfo)")
+//        }
+        
+//        let context = (UIApplication.shared.delegate as! AppDelegate).coreDataStack.persistentContainer.viewContext
+//        let entityDescription = NSEntityDescription.entity(forEntityName: "Restaurant", in: context)
+//        //var sortDescription: [NSSortDescriptor]?
+//        //let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+//        let request = NSFetchRequest<Restaurant>()
+//        request.entity = entityDescription
+//        let predicate = NSPredicate(format: "name == %@", restaurant!.name!)
+//        request.predicate = predicate
+//        fetchResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+////        request.sortDescriptors = [nameSortDescriptor]
+//        print("do it")
+//        do {
+//            let objects = try context.execute(request)
+//            try fetchResultsController.performFetch()
+//            print(objects)
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+        
+        
         
         performSegue(withIdentifier: "unwindSegueToDVC", sender: sender)
     }

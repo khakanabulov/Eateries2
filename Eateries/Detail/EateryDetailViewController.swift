@@ -89,5 +89,9 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
             let dvc = segue.destination as! MapViewController
             dvc.restaurant = self.restaurant
         }
+        if segue.identifier == "segueToRate" {
+            let dvc = segue.destination as! RateViewController
+            dvc.restaurant = self.restaurant
+        }
     }
 }
