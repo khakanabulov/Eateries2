@@ -12,7 +12,7 @@ class AboutUsTableViewController: UITableViewController {
 
     let sectionsHeaders = ["Я в социальных сетях", "Мои сайты"]
     let sectionsContent = [["vk", "instagram", "youtube"], ["sait kompanyy", "moi sait"]]
-    let firstSectionLinks = ["www.vk.com/id140807092", "www.instagram.com/khakan_apollo", "youtube kotorogo eshe net"]
+    let firstSectionLinks = ["https://vk.com/id140807092", "https://www.instagram.com/khakan_apollo", "youtube kotorogo eshe net"]
     
     
     override func viewDidLoad() {
@@ -49,9 +49,30 @@ class AboutUsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
+            case 0..<firstSectionLinks.count:
+                performSegue(withIdentifier: "showWebPageSegue", sender: self) // переходим на сайт
+            default:
+                break
+            }
+        default:
+            break
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
  
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showWebPageSegue" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let dvc = segue.destination as! WebViewController
+                dvc.url = URL(string: firstSectionLinks[indexPath.row])
+            }
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.

@@ -19,6 +19,8 @@
 		3A7CE16A21A47FDD00A82E77 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE16921A47FDD00A82E77 /* ContentViewController.swift */; };
 		3A7CE16C21A47FFB00A82E77 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE16B21A47FFB00A82E77 /* PageViewController.swift */; };
 		3A7CE17021A4B44A00A82E77 /* AboutUsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE16F21A4B44A00A82E77 /* AboutUsTableViewController.swift */; };
+		3A7CE17221A4BA2A00A82E77 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE17121A4BA2A00A82E77 /* WebViewController.swift */; };
+		3A7CE17421A4C44700A82E77 /* AfishaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE17321A4C44700A82E77 /* AfishaViewController.swift */; };
 		3ACDA7E32199E437007019FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACDA7E22199E437007019FC /* AppDelegate.swift */; };
 		3ACDA7E82199E437007019FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ACDA7E62199E437007019FC /* Main.storyboard */; };
 		3ACDA7EA2199E438007019FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ACDA7E92199E438007019FC /* Assets.xcassets */; };
@@ -39,6 +41,8 @@
 		3A7CE16921A47FDD00A82E77 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		3A7CE16B21A47FFB00A82E77 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		3A7CE16F21A4B44A00A82E77 /* AboutUsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsTableViewController.swift; sourceTree = "<group>"; };
+		3A7CE17121A4BA2A00A82E77 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		3A7CE17321A4C44700A82E77 /* AfishaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfishaViewController.swift; sourceTree = "<group>"; };
 		3ACDA7DF2199E437007019FC /* Eateries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eateries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ACDA7E22199E437007019FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3ACDA7E72199E437007019FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -109,7 +113,9 @@
 				3ACDA7E22199E437007019FC /* AppDelegate.swift */,
 				3A7CE16421A0410800A82E77 /* CoreDataStack.swift */,
 				3ACDA7E62199E437007019FC /* Main.storyboard */,
+				3A7CE17321A4C44700A82E77 /* AfishaViewController.swift */,
 				3A7CE16F21A4B44A00A82E77 /* AboutUsTableViewController.swift */,
+				3A7CE17121A4BA2A00A82E77 /* WebViewController.swift */,
 				3A7CE16E21A4802700A82E77 /* Page */,
 				3A479A25219EE13D00658192 /* NewEateryTableViewController.swift */,
 				3A479A20219EC84500658192 /* MapViewController.swift */,
@@ -204,6 +210,7 @@
 				3A479A1C219DDB1300658192 /* EateryDetailTableViewCell.swift in Sources */,
 				3A7CE16821A044D900A82E77 /* Eateries.xcdatamodeld in Sources */,
 				3ACDA7E32199E437007019FC /* AppDelegate.swift in Sources */,
+				3A7CE17421A4C44700A82E77 /* AfishaViewController.swift in Sources */,
 				3A7CE17021A4B44A00A82E77 /* AboutUsTableViewController.swift in Sources */,
 				3A7CE16C21A47FFB00A82E77 /* PageViewController.swift in Sources */,
 				3ACDA7F52199E510007019FC /* EateriesTableViewController.swift in Sources */,
@@ -212,6 +219,7 @@
 				3A7225A8219B1704009B65AE /* EateriesTableViewCell.swift in Sources */,
 				3A479A26219EE13D00658192 /* NewEateryTableViewController.swift in Sources */,
 				3A7CE16A21A47FDD00A82E77 /* ContentViewController.swift in Sources */,
+				3A7CE17221A4BA2A00A82E77 /* WebViewController.swift in Sources */,
 				3A479A1F219E2E5300658192 /* RateViewController.swift in Sources */,
 				3A479A21219EC84500658192 /* MapViewController.swift in Sources */,
 			);
