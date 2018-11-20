@@ -77,6 +77,10 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
     //  как только отобразиться наш главный экран ViewDidLoad, вызывается этот метод и главный экран закроет наш PageViewController
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let userDefaults = UserDefaults.standard
+        let wasIntroWatch = userDefaults.bool(forKey: "wasIntroWatch")
+        print(wasIntroWatch)
+        guard !wasIntroWatch else { return } //если слайды уже были просмотренны, не грузим PageVC
         // вызываем PageViewController
         if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "pageViewController") as? PageViewController {
             present(pageViewController, animated: true, completion: nil)

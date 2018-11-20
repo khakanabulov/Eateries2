@@ -22,6 +22,10 @@ class ContentViewController: UIViewController {
             let pageVC = parent as! PageViewController // добираемя до нашего PageVC через свойство parent, чтобы вызвать следующий ContentVC
             pageVC.nextVC(AtIndex: index) // вызываем следующий ContentVC
         case 1:
+            // сохраняем данные о том, что пользователь уже видел пояснение
+            let userDefaults = UserDefaults.standard //получили доступ к хранилищу, можем хранить конкретные значения для конкретных ключей
+            userDefaults.set(true, forKey: "wasIntroWatch")
+            userDefaults.synchronize() // пишем, чтобы наши данные точно записались
             dismiss(animated: true, completion: nil) // заставляем наш ContentVC исчезнуть
         default:
             break;
