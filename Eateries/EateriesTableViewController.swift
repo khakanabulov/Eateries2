@@ -45,6 +45,7 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         searchController = UISearchController(searchResultsController: nil) // передаем nil, чтобы результаты выдавались на этом же контроллере
         searchController.searchResultsUpdater = self // назначаем контроллер, который будет обновлять результаты
         searchController.dimsBackgroundDuringPresentation = false // чтобы не затемнялся экран при поиске
@@ -71,6 +72,14 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
+        }
+    }
+    //  как только отобразиться наш главный экран ViewDidLoad, вызывается этот метод и главный экран закроет наш PageViewController
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // вызываем PageViewController
+        if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "pageViewController") as? PageViewController {
+            present(pageViewController, animated: true, completion: nil)
         }
     }
     
