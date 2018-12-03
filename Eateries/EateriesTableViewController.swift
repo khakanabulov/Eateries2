@@ -59,6 +59,7 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.rowHeight = UITableView.automaticDimension // устанавливаем автоматическое вычисление высоты
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // убираем имя на кнопке возвращения, чтобы оно не смещало название выбранного ресторана
+        //UIApplication.shared.statusBarView?.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию(указание того как мы хотим видеть выходные данные)
         fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу

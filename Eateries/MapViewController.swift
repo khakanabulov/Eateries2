@@ -41,7 +41,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let annotationIdentifier = "restAnnotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView // переиспользуем аннотацию, так же как и ячейки
         // если вызыывать не as MKPinAnnotationView, a as MKAnnotationView получим аннотацию без иголки(pin)
-
+        
         if (annotationView == nil) { // если не получилось через переиспользование создать аннотацию, создаем новую
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
             annotationView?.canShowCallout = true // позволяем отображать дополнительную информацию аннотации
