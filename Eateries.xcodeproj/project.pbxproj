@@ -11,6 +11,7 @@
 		3A2D95E121B57C5300960864 /* RestaurantAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D95E021B57C5300960864 /* RestaurantAPIManager.swift */; };
 		3A2D95E321B5849100960864 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D95E221B5849100960864 /* ErrorManager.swift */; };
 		3A2D95E521B587F200960864 /* RestaurantAfisha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D95E421B587F200960864 /* RestaurantAfisha.swift */; };
+		3A2D95E721B7BB6D00960864 /* AfishaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D95E621B7BB6D00960864 /* AfishaTableViewCell.swift */; };
 		3A479A18219DC45200658192 /* EateryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A479A17219DC45200658192 /* EateryDetailViewController.swift */; };
 		3A479A1C219DDB1300658192 /* EateryDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A479A1B219DDB1300658192 /* EateryDetailTableViewCell.swift */; };
 		3A479A1F219E2E5300658192 /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A479A1E219E2E5300658192 /* RateViewController.swift */; };
@@ -37,6 +38,7 @@
 		3A2D95E021B57C5300960864 /* RestaurantAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantAPIManager.swift; sourceTree = "<group>"; };
 		3A2D95E221B5849100960864 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		3A2D95E421B587F200960864 /* RestaurantAfisha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantAfisha.swift; sourceTree = "<group>"; };
+		3A2D95E621B7BB6D00960864 /* AfishaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfishaTableViewCell.swift; sourceTree = "<group>"; };
 		3A479A17219DC45200658192 /* EateryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateryDetailViewController.swift; sourceTree = "<group>"; };
 		3A479A1B219DDB1300658192 /* EateryDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateryDetailTableViewCell.swift; sourceTree = "<group>"; };
 		3A479A1E219E2E5300658192 /* RateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A2D95E921B7BD3700960864 /* Afisha */ = {
+			isa = PBXGroup;
+			children = (
+				3A7CE17321A4C44700A82E77 /* AfishaViewController.swift */,
+				3A2D95E621B7BB6D00960864 /* AfishaTableViewCell.swift */,
+				3A2D95DE21B57B4D00960864 /* APIManager.swift */,
+				3A2D95E021B57C5300960864 /* RestaurantAPIManager.swift */,
+				3A2D95E421B587F200960864 /* RestaurantAfisha.swift */,
+			);
+			path = Afisha;
+			sourceTree = "<group>";
+		};
 		3A479A1D219DDB2C00658192 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,12 +134,9 @@
 			children = (
 				3ACDA7E22199E437007019FC /* AppDelegate.swift */,
 				3A7CE16421A0410800A82E77 /* CoreDataStack.swift */,
-				3ACDA7E62199E437007019FC /* Main.storyboard */,
-				3A2D95DE21B57B4D00960864 /* APIManager.swift */,
-				3A2D95E021B57C5300960864 /* RestaurantAPIManager.swift */,
-				3A2D95E421B587F200960864 /* RestaurantAfisha.swift */,
 				3A2D95E221B5849100960864 /* ErrorManager.swift */,
-				3A7CE17321A4C44700A82E77 /* AfishaViewController.swift */,
+				3ACDA7E62199E437007019FC /* Main.storyboard */,
+				3A2D95E921B7BD3700960864 /* Afisha */,
 				3A7CE16F21A4B44A00A82E77 /* AboutUsTableViewController.swift */,
 				3A7CE17121A4BA2A00A82E77 /* WebViewController.swift */,
 				3A7CE16E21A4802700A82E77 /* Page */,
@@ -234,6 +245,7 @@
 				3A7225A8219B1704009B65AE /* EateriesTableViewCell.swift in Sources */,
 				3A479A26219EE13D00658192 /* NewEateryTableViewController.swift in Sources */,
 				3A7CE16A21A47FDD00A82E77 /* ContentViewController.swift in Sources */,
+				3A2D95E721B7BB6D00960864 /* AfishaTableViewCell.swift in Sources */,
 				3A2D95E521B587F200960864 /* RestaurantAfisha.swift in Sources */,
 				3A7CE17221A4BA2A00A82E77 /* WebViewController.swift in Sources */,
 				3A479A1F219E2E5300658192 /* RateViewController.swift in Sources */,

@@ -11,19 +11,81 @@ import WebKit
 
 class AfishaViewController: UITableViewController {
 
-    @IBOutlet weak var AfishaTableView: UITableView!
+    //@IBOutlet weak var AfishaTableView: UITableView!
     
-    var restaurants: [Restaurant] = []
+    var restaurants: [RestaurantAfisha] = []
+    lazy var weatherManager = RestaurantAPIManager(sessionConfiguration: .default)
+    var id: Int = 0
+    
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        
-        
-        
-        
+        getRestaurantData()
         }
     
+    func allert(title: String, message: String, error: NSError) {
+        let allertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        allertController.addAction(okAction)
+        self.present(allertController, animated: true, completion: nil)
+    }
     
+    
+    func getRestaurantData() { // fetch - получить
+        weatherManager.fetchCurrentWeatherWith() { (result) in
+            //self.toggleActivityIndicator(on: false)
+            switch result {
+            case .Success(let currentWeather):
+                self.updateUIWith(currentWeather: currentWeather)
+            case .Failure(let error as NSError):
+                self.allert(title: "Unable to get data", message: error.localizedDescription, error: error)
+            }
+            
+        }
+    }
+    
+    // вызовем этот метод, когда у нас загружается приложение
+    func updateUIWith(currentWeather: RestaurantAfisha) {
+        restaurants.insert(currentWeather, at: id)
+        id += 1
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+            return restaurants.count
+        }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AfishaCell", for: indexPath) as! AfishaTableViewCell
+        // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
+        let restaurant = restaurants[indexPath.row]
+        //cell.thumbnailImageView.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurants[indexPath.row].image)
+        //cell.thumbnailImageView.layer.cornerRadius = 32.5
+        //cell.thumbnailImageView.clipsToBounds = true
+        cell.nameLabel.text = restaurant.name
+        cell.locationLabel.text = restaurant.location
+        cell.typeLabel.text = restaurant.type
+        //        if self.restaurantIsVisited[indexPath.row] {
+        //            cell.accessoryType = .checkmark
+        //        } else {
+        //            cell.accessoryType = .none
+        //        }
+        //cell.accessoryType = restaurant.isVisited ? .checkmark : .none // Если ресторан посещали, добавляем в правой части галочку
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+    
+
     
 //    var url = URL(string: "https://www.afisha.ru/msk/restaurants/luchshie-restorany-v-moskve/")
 //    var webView: WKWebView!
@@ -78,4 +140,4 @@ class AfishaViewController: UITableViewController {
 //     }
 //     */
 
-}
+

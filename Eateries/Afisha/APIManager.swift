@@ -11,7 +11,7 @@ import Foundation
 typealias JSONTask = URLSessionDataTask // переиминовали URLSessionDataTask в JSONTask
 typealias JSONCompletionHandler = ([String: AnyObject]?, HTTPURLResponse?, Error?) -> Void // переименовали [String: AnyObject]?, HTTPURLResponse?, Error?) -> Void в JSONCompletionHandler
 
-// протокол нужен для parse: (json) -> CurrentWeather
+// протокол нужен для parse: (json) -> RestaurantAfisha
 protocol JSONDecodable {
     init?(JSON: [String: AnyObject]) // init с возможностью провалиться(вернуть nil)
 }
@@ -39,8 +39,8 @@ protocol APIManager {
     /* У нас есть 2 метода, которые позволяют получить данные
      1) Мы вызываем метод fetch и внутри этого метода мы используем JSONTaskWith(request: ...)
      Передаваемый в fetch - request передаем в JSONTaskWith(request: ...), затем там срабатывает completionHandler по заверщению которого мы получаем [String: AnyObject]?(JSON формат), HTTPURLResponse?, Error?)
-     2) Затем мы пытаемся преобразовать полученные данные([String: AnyObject]) в формат T   (parse: ([String: AnyObject]?) -> T) (T у нас CurrentWeather)
-     3) Затем, если у нас все срабатывает, срабатывает completionHandler: (APIResuls<T>) -> Void, который передает либо текущий экземпляр нашего CurrentWeather, либо какую-либо ошибку
+     2) Затем мы пытаемся преобразовать полученные данные([String: AnyObject]) в формат T   (parse: ([String: AnyObject]?) -> T) (T у нас RestaurantAfisha)
+     3) Затем, если у нас все срабатывает, срабатывает completionHandler: (APIResuls<T>) -> Void, который передает либо текущий экземпляр нашего RestaurantAfisha, либо какую-либо ошибку
      */
 }
 

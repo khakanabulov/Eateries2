@@ -635,32 +635,6 @@
             </objects>
             <point key="canvasLocation" x="3828" y="1127.5862068965519"/>
         </scene>
-        <!--Afisha View Controller-->
-        <scene sceneID="JmM-7G-tKr">
-            <objects>
-                <viewController id="FLc-aw-M9R" customClass="AfishaViewController" customModule="Eateries" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MgF-do-B0B">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2CV-0D-3UE">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="aMh-6p-kcW"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="4CY-n2-1Jp"/>
-                    <connections>
-                        <outlet property="AfishaTableView" destination="2CV-0D-3UE" id="Wh9-Is-6aa"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gln-MV-S7h" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="213.59999999999999" y="1104.1979010494754"/>
-        </scene>
         <!--О нас-->
         <scene sceneID="Tr4-Yo-3u7">
             <objects>
@@ -828,12 +802,81 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="FLc-aw-M9R" kind="relationship" relationship="rootViewController" id="3Ya-qQ-ZJR"/>
+                        <segue destination="cBc-Bn-Esx" kind="relationship" relationship="rootViewController" id="Oeo-GU-Mwl"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sVc-oC-bFs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-725.60000000000002" y="1104.1979010494754"/>
+        </scene>
+        <!--Afisha View Controller-->
+        <scene sceneID="fxO-6Q-Md1">
+            <objects>
+                <tableViewController id="cBc-Bn-Esx" customClass="AfishaViewController" customModule="Eateries" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="m02-ma-Yl3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AfishaCell" rowHeight="93" id="byG-nT-hDY" customClass="AfishaTableViewCell" customModule="Eateries" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="93"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="byG-nT-hDY" id="4WV-TE-zja">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="92.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="7cX-Xh-OSf">
+                                            <rect key="frame" x="21" y="16" width="333" height="61"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N07-OY-cUO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="41.5" height="12"/>
+                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GAs-aa-pMX">
+                                                    <rect key="frame" x="0.0" y="16" width="35.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AaN-KW-Axg">
+                                                    <rect key="frame" x="0.0" y="40.5" width="61.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="GAs-aa-pMX" firstAttribute="top" secondItem="N07-OY-cUO" secondAttribute="bottom" constant="4" id="3xS-fG-vLh"/>
+                                                <constraint firstItem="AaN-KW-Axg" firstAttribute="top" secondItem="GAs-aa-pMX" secondAttribute="bottom" constant="4" id="xcl-xn-mvi"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="7cX-Xh-OSf" secondAttribute="trailing" constant="5" id="C0L-32-a6T"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="7cX-Xh-OSf" secondAttribute="bottom" constant="5" id="RnJ-HL-nig"/>
+                                        <constraint firstItem="7cX-Xh-OSf" firstAttribute="top" secondItem="4WV-TE-zja" secondAttribute="topMargin" constant="5" id="hrQ-Sq-Muc"/>
+                                        <constraint firstItem="7cX-Xh-OSf" firstAttribute="leading" secondItem="4WV-TE-zja" secondAttribute="leadingMargin" constant="5" id="uEw-cp-8cD"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="locationLabel" destination="AaN-KW-Axg" id="KxA-uO-P7j"/>
+                                    <outlet property="nameLabel" destination="N07-OY-cUO" id="yYD-xi-0p2"/>
+                                    <outlet property="typeLabel" destination="GAs-aa-pMX" id="DOC-TH-ujC"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="cBc-Bn-Esx" id="Adq-Yu-YVj"/>
+                            <outlet property="delegate" destination="cBc-Bn-Esx" id="im0-DD-vR6"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="SsU-9Z-hMJ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="guX-XK-YrR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="120.8" y="1101.4992503748126"/>
         </scene>
     </scenes>
     <resources>

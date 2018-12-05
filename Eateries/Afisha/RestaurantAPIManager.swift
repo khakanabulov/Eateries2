@@ -18,22 +18,24 @@ final class RestaurantAPIManager: APIManager {
     }()
     
     enum PlacesType: FinalURLPoint {
-        case Restaurant() // узнаем текущий прогноз погоды
+        case Restaurant()
         
         var baseURL: URL {
             return URL(string: "https://kudago.com")!
         }
         
         var path: String {
-            // в зависимости от того, какой прогноз погоды мы хотим знать, у нас будет свой адрес
             switch self {
             case .Restaurant():
-                return "/public-api/v1.2/places/?fields=id,categories,title&location=msk&categories=restaurant"
+                return "/places/?fields=id,categories,title&location=spb&categories=attract,cinema,museums&lon=37.6&lat=55.7&radius=900000&has_showings=movie&showing_since=1000000000&"
+                //return "/public-api/v1.2/places/?fields=id,categories,title&location=msk&categories=restaurant"
             }
         }
         
         var request: URLRequest {
-            let url = URL(string: path , relativeTo: baseURL) // строка path relativeTo(относительно) baseURL
+            //let url = URL(string: path , relativeTo: baseURL) // строка path relativeTo(относительно) baseURL ПОЧЕМУ ТО НЕ РАБОТАЕТ 404
+            let url = URL(string: "https://kudago.com/public-api/v1.4/places/?fields=id,categories,title&location=msk&categories=restaurant") // 400
+            print(url)
             return URLRequest(url: url!)
         }
         
@@ -54,7 +56,8 @@ final class RestaurantAPIManager: APIManager {
         let request = PlacesType.Restaurant().request
         
         fetch(request: request, parse: { (json) -> RestaurantAfisha? in
-            if let dictionary = json["restaurant"] as? [String: AnyObject] {
+            if let dictionary = json["results"] as? [String: AnyObject] {
+                print(dictionary)
                 return RestaurantAfisha(JSON: dictionary)
             } else {
                 return nil

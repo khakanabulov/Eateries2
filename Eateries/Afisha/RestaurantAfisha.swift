@@ -16,15 +16,13 @@ struct RestaurantAfisha {
     let type: String
     //let isVisited: Bool
 }
-
+//https://kudago.com/public-api/v1.2/places/?fields=id,categories,title&location=spb&categories=attract,cinema,museums&lon=37.6&lat=55.7&radius=900000&has_showings=movie&showing_since=1000000000&
 extension RestaurantAfisha: JSONDecodable {
     // получаем значения из JSON
     init?(JSON: [String : AnyObject]) { // на вход получаем словарь
         guard let name = JSON["title"] as? String,
             let location = JSON["address"] as? String,
             let type = JSON["slug"] as? String
-//            let pressure = JSON["pressure"] as? Double,
-//            let iconString = JSON["icon"] as? String
             else {
                 return nil
         }
@@ -34,24 +32,4 @@ extension RestaurantAfisha: JSONDecodable {
     }
 }
         
-//        self.temperature = (temperature - 32) * 5/9 // переводим Фаренгейты в градусы по Цельсию
-//        self.apparentTemperature = (apparentTemperature - 32) * 5/9
-//        self.humidity = humidity * 100
-//        self.pressure = pressure / 1.3333
-//        self.icon = icon
 
-
-//extension CurrentWeather {
-//    var pressureString: String {
-//        return "\(Int(pressure)) mm"
-//    }
-//    var temperatureString: String {
-//        return "\(Int(temperature))˚C"
-//    }
-//    var apparentTemperatureString: String {
-//        return "Fell's like \(Int(apparentTemperature))˚C"
-//    }
-//    var humidityString: String {
-//        return "\(Int(humidity))%"
-//    }
-//}
