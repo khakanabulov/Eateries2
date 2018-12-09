@@ -80,7 +80,7 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewDidAppear(animated)
         let userDefaults = UserDefaults.standard
         let wasIntroWatch = userDefaults.bool(forKey: "wasIntroWatch")
-        print(wasIntroWatch)
+        //print(wasIntroWatch)
         guard !wasIntroWatch else { return } //если слайды уже были просмотренны, не грузим PageVC
         // вызываем PageViewController
         if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "pageViewController") as? PageViewController {
@@ -151,6 +151,8 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EateriesTableViewCell
         // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
         let restaurant = restaurantToDesplayAt(indexPath: indexPath)
+        //print(33)
+        //print(restaurant)
         cell.thumbnailImageView.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurants[indexPath.row].image)
         cell.thumbnailImageView.layer.cornerRadius = 32.5
         cell.thumbnailImageView.clipsToBounds = true

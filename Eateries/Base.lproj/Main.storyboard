@@ -872,7 +872,13 @@
                             <outlet property="delegate" destination="cBc-Bn-Esx" id="im0-DD-vR6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="SsU-9Z-hMJ"/>
+                    <navigationItem key="navigationItem" id="SsU-9Z-hMJ">
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="qMP-cZ-kXr">
+                            <connections>
+                                <action selector="refreshButton:" destination="cBc-Bn-Esx" id="mvk-vE-C9w"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="guX-XK-YrR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,6 +8,6 @@
 
 import Foundation
 // добавляем SWI, чтобы не произошло наложение имен, если такое имя может оказаться также в другой библиотеке
-public let SWINetworkingErrorDomain = "ru.swiftbook.WeatherApp.NetworkingError"
+public let NetworkingErrorDomain = "NetworkingError"
 public let MissingHTTPResponseError = 100 // отсутсвует HTTP ответ, код ошибки - 100
 public let UnexpectedResponseError = 200 // ошибка при parse JSON, код ошибки - 200

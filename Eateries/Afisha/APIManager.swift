@@ -60,7 +60,7 @@ extension APIManager {
                 let userInfo = [
                     NSLocalizedDescriptionKey: NSLocalizedString("Missing HTTP Response", comment: "")
                 ]
-                let error = NSError(domain: SWINetworkingErrorDomain, code: 100, userInfo: userInfo)
+                let error = NSError(domain: NetworkingErrorDomain, code: 100, userInfo: userInfo)
                 
                 completionHandler(nil, nil, error) // вызываем closure с данной ошибкой
                 return
@@ -99,11 +99,12 @@ extension APIManager {
                     }
                     return
                 }
-                
+                //print(1)
                 if let value = parse(json) { // смотрим, получилось ли у нас получить тип опционального T, через parse(json)
+                   // print(2)
                     completionHandler(.Success(value))
                 } else {
-                    let error = NSError(domain: SWINetworkingErrorDomain, code: 200, userInfo: nil)
+                    let error = NSError(domain: NetworkingErrorDomain, code: 200, userInfo: nil)
                     completionHandler(.Failure(error))
                 }
             })

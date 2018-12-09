@@ -20,15 +20,15 @@ struct RestaurantAfisha {
 extension RestaurantAfisha: JSONDecodable {
     // получаем значения из JSON
     init?(JSON: [String : AnyObject]) { // на вход получаем словарь
-        guard let name = JSON["title"] as? String,
-            let location = JSON["address"] as? String,
-            let type = JSON["slug"] as? String
+        guard let location = JSON["address"] as? String,
+            let type = JSON["id"] as? NSNumber,
+            let name = JSON["title"] as? String
             else {
                 return nil
         }
         self.name = name
         self.location = location
-        self.type = type
+        self.type = "\(type)"
     }
 }
         

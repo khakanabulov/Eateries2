@@ -11,17 +11,28 @@ import WebKit
 
 class AfishaViewController: UITableViewController {
 
+    @IBAction func refreshButton(_ sender: UIBarButtonItem) {
+        tableView.beginUpdates()
+        tableView.reloadData()
+        tableView.endUpdates()
+    }
     //@IBOutlet weak var AfishaTableView: UITableView!
     
-    var restaurants: [RestaurantAfisha] = []
-    lazy var weatherManager = RestaurantAPIManager(sessionConfiguration: .default)
-    var id: Int = 0
+    var restaurants: [RestaurantAfisha] = [RestaurantAfisha(name: "name", location: "location", type: "type")]
+    lazy var restaurantManager = RestaurantAPIManager(sessionConfiguration: .default)
+    var id: Int = 1
     
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        getRestaurantData()
+        tableView.estimatedRowHeight = 85 // устанавливаем ожидаемую высоту ячейки
+        tableView.rowHeight = UITableView.automaticDimension // устанавливаем автоматическое вычисление высоты
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        // DispatchQueue.main.async(execute: {
+            getRestaurantData()
+        //})
         }
     
     func allert(title: String, message: String, error: NSError) {
@@ -33,11 +44,12 @@ class AfishaViewController: UITableViewController {
     
     
     func getRestaurantData() { // fetch - получить
-        weatherManager.fetchCurrentWeatherWith() { (result) in
+        restaurantManager.fetchRestaurantWith() { (result) in
             //self.toggleActivityIndicator(on: false)
+            print("result: \(result)")
             switch result {
-            case .Success(let currentWeather):
-                self.updateUIWith(currentWeather: currentWeather)
+            case .Success(let restaurant):
+                self.updateUIWith(restaurant: restaurant)
             case .Failure(let error as NSError):
                 self.allert(title: "Unable to get data", message: error.localizedDescription, error: error)
             }
@@ -46,8 +58,9 @@ class AfishaViewController: UITableViewController {
     }
     
     // вызовем этот метод, когда у нас загружается приложение
-    func updateUIWith(currentWeather: RestaurantAfisha) {
-        restaurants.insert(currentWeather, at: id)
+    func updateUIWith(restaurant: RestaurantAfisha) {
+        restaurants.insert(restaurant, at: id)
+        print(restaurants)
         id += 1
     }
     
@@ -58,13 +71,17 @@ class AfishaViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(restaurants.count)
             return restaurants.count
         }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("vizvals9")
         let cell = tableView.dequeueReusableCell(withIdentifier: "AfishaCell", for: indexPath) as! AfishaTableViewCell
         // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
         let restaurant = restaurants[indexPath.row]
+        print("cellForRowAt")
+        print(restaurant)
         //cell.thumbnailImageView.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurants[indexPath.row].image)
         //cell.thumbnailImageView.layer.cornerRadius = 32.5
         //cell.thumbnailImageView.clipsToBounds = true
