@@ -35,7 +35,7 @@ final class RestaurantAPIManager: APIManager {
         var request: URLRequest {
             //let url = URL(string: path , relativeTo: baseURL) // строка path relativeTo(относительно) baseURL ПОЧЕМУ ТО НЕ РАБОТАЕТ 404
             let url = URL(string: "https://kudago.com/public-api/v1.4/places/?fields=id,address,title&location=msk&categories=restaurants") // 400
-           // print(url)
+            // print(url)
             return URLRequest(url: url!)
         }
         
@@ -52,13 +52,19 @@ final class RestaurantAPIManager: APIManager {
     }
     
     // метод возвращающий текущую погоду
-    func fetchRestaurantWith(completionHandler: @escaping (APIResult<RestaurantAfisha>) -> Void) {
+    func fetchRestaurantWith(completionHandler: @escaping (APIResult<[RestaurantAfisha]>) -> Void) {
         let request = PlacesType.Restaurant().request
         
-        fetch(request: request, parse: { (json) -> RestaurantAfisha? in
+        fetch(request: request, parse: { (json) -> [RestaurantAfisha]? in
             if let dictionary = json["results"] as? [[String: AnyObject]] {
-                print(dictionary[0])
-                return RestaurantAfisha(JSON: dictionary[0])
+                var restauratArray: [RestaurantAfisha] = []
+                print(dictionary)
+                var id = 0
+                for restaurant in dictionary {
+                    restauratArray.insert(RestaurantAfisha(JSON: restaurant)!, at: id)
+                    id += 1
+                }
+                return restauratArray
             } else {
                 print("DER'MO")
                 return nil

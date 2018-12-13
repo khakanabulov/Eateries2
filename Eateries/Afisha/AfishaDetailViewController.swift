@@ -8,13 +8,13 @@
 
 import UIKit
 
-class EateryDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var rateButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageView: UIImageView!
-    var restaurant: Restaurant?
+    var restaurantA: RestaurantAfisha?
     
     @IBAction func unwindSegue(segue: UIStoryboardSegue) {
         guard let svc = segue.source as? RateViewController else {return}
@@ -25,6 +25,11 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.hidesBarsOnSwipe = false
         navigationController?.setNavigationBarHidden(false, animated: true)
+        //        print(navigationController?.isViewLoaded)
+        //navigationController?.isViewLoaded
+        //        if (!(navigationController?.isBeingPresented)!) {
+        //            navigationController?.loadView()
+        //        }
     }
     
     override func viewDidLoad() {
@@ -39,12 +44,10 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
         }
         tableView.estimatedRowHeight = 38
         tableView.rowHeight = UITableView.automaticDimension
-        
-        imageView.image = UIImage(data: restaurant!.image! as Data)//UIImage(named: restaurant!.image)
-//        tableView.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
-//        tableView.separatorColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
         tableView.tableFooterView = UIView(frame: CGRect.zero) // убирает деления под ячейкам(где их нет)
-        title = restaurant!.name
+        if (restaurantA != nil) {
+            title = restaurantA!.name
+        }
     }
     
     
@@ -58,22 +61,23 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EateryDetailTableViewCell
-        
-        switch indexPath.row {
-        case 0:
-            cell.keyLabel.text = "Название"
-            cell.valueLabel.text = restaurant!.name
-        case 1:
-            cell.keyLabel.text = "Тип"
-            cell.valueLabel.text = restaurant!.type
-        case 2:
-            cell.keyLabel.text = "Адрес"
-            cell.valueLabel.text = restaurant!.location
-        case 3:
-            cell.keyLabel.text = "Я там был?"
-            cell.valueLabel.text = restaurant!.isVisited ? "Да" : "Нет"
-        default:
-            break
+         if (restaurantA != nil) {
+            switch indexPath.row {
+            case 0:
+                cell.keyLabel.text = "Название"
+                cell.valueLabel.text = restaurantA!.name
+            case 1:
+                cell.keyLabel.text = "Тип"
+                cell.valueLabel.text = restaurantA!.type
+            case 2:
+                cell.keyLabel.text = "Адрес"
+                cell.valueLabel.text = restaurantA!.location
+            case 3:
+                cell.keyLabel.text = "Я там был?"
+                cell.valueLabel.text = "Нет"
+            default:
+                break
+            }
         }
         
         cell.backgroundColor = UIColor.clear
@@ -85,13 +89,17 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "mapSegue" {
-            let dvc = segue.destination as! MapViewController
-            dvc.restaurant = self.restaurant
+        if segue.identifier == "afishaMapSegue" {
+            if (restaurantA != nil) {
+                let dvc = segue.destination as! MapViewController
+                dvc.restaurantA = self.restaurantA
+            }
         }
-        if segue.identifier == "segueToRate" {
-            let dvc = segue.destination as! RateViewController
-            dvc.restaurant = self.restaurant
+        if segue.identifier == "afishaSegueToRate" {
+            if (restaurantA != nil) {
+                let dvc = segue.destination as! RateViewController
+                dvc.restaurantA = self.restaurantA
+            }
         }
     }
 }

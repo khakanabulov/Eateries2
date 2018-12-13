@@ -18,6 +18,7 @@
 		3A479A21219EC84500658192 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A479A20219EC84500658192 /* MapViewController.swift */; };
 		3A479A24219EC90F00658192 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A479A23219EC90F00658192 /* MapKit.framework */; };
 		3A479A26219EE13D00658192 /* NewEateryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A479A25219EE13D00658192 /* NewEateryTableViewController.swift */; };
+		3A4C49ED21C2DC8000E5757A /* AfishaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4C49EC21C2DC8000E5757A /* AfishaDetailViewController.swift */; };
 		3A7225A8219B1704009B65AE /* EateriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7225A7219B1704009B65AE /* EateriesTableViewCell.swift */; };
 		3A7CE16521A0410800A82E77 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE16421A0410800A82E77 /* CoreDataStack.swift */; };
 		3A7CE16821A044D900A82E77 /* Eateries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CE16621A044D900A82E77 /* Eateries.xcdatamodeld */; };
@@ -31,9 +32,11 @@
 		3ACDA7EA2199E438007019FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ACDA7E92199E438007019FC /* Assets.xcassets */; };
 		3ACDA7ED2199E438007019FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ACDA7EB2199E438007019FC /* LaunchScreen.storyboard */; };
 		3ACDA7F52199E510007019FC /* EateriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACDA7F42199E510007019FC /* EateriesTableViewController.swift */; };
+		D1F726214A502D599A6A59B6 /* Pods_Eateries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CA19C57221E8A7FAE66946 /* Pods_Eateries.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32CA19C57221E8A7FAE66946 /* Pods_Eateries.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eateries.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A2D95DE21B57B4D00960864 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		3A2D95E021B57C5300960864 /* RestaurantAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantAPIManager.swift; sourceTree = "<group>"; };
 		3A2D95E221B5849100960864 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 		3A479A20219EC84500658192 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3A479A23219EC90F00658192 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3A479A25219EE13D00658192 /* NewEateryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEateryTableViewController.swift; sourceTree = "<group>"; };
+		3A4C49EC21C2DC8000E5757A /* AfishaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfishaDetailViewController.swift; sourceTree = "<group>"; };
 		3A7225A7219B1704009B65AE /* EateriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateriesTableViewCell.swift; sourceTree = "<group>"; };
 		3A7CE16421A0410800A82E77 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		3A7CE16721A044D900A82E77 /* Eateries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Eateries.xcdatamodel; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 		3ACDA7EC2199E438007019FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3ACDA7EE2199E438007019FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3ACDA7F42199E510007019FC /* EateriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateriesTableViewController.swift; sourceTree = "<group>"; };
+		4CD4CF5B1690E5522445682A /* Pods-Eateries.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eateries.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Eateries/Pods-Eateries.debug.xcconfig"; sourceTree = "<group>"; };
+		FB35B36251F0BE23C6CB108C /* Pods-Eateries.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eateries.release.xcconfig"; path = "Pods/Target Support Files/Pods-Eateries/Pods-Eateries.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A479A24219EC90F00658192 /* MapKit.framework in Frameworks */,
+				D1F726214A502D599A6A59B6 /* Pods_Eateries.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +84,7 @@
 		3A2D95E921B7BD3700960864 /* Afisha */ = {
 			isa = PBXGroup;
 			children = (
+				3A4C49EC21C2DC8000E5757A /* AfishaDetailViewController.swift */,
 				3A7CE17321A4C44700A82E77 /* AfishaViewController.swift */,
 				3A2D95E621B7BB6D00960864 /* AfishaTableViewCell.swift */,
 				3A2D95DE21B57B4D00960864 /* APIManager.swift */,
@@ -99,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				3A479A23219EC90F00658192 /* MapKit.framework */,
+				32CA19C57221E8A7FAE66946 /* Pods_Eateries.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,6 +127,7 @@
 				3ACDA7E12199E437007019FC /* Eateries */,
 				3ACDA7E02199E437007019FC /* Products */,
 				3A479A22219EC90F00658192 /* Frameworks */,
+				CB4C47998E80FC59C859CC4C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +164,15 @@
 			path = Eateries;
 			sourceTree = "<group>";
 		};
+		CB4C47998E80FC59C859CC4C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4CD4CF5B1690E5522445682A /* Pods-Eateries.debug.xcconfig */,
+				FB35B36251F0BE23C6CB108C /* Pods-Eateries.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -161,9 +180,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3ACDA7F12199E438007019FC /* Build configuration list for PBXNativeTarget "Eateries" */;
 			buildPhases = (
+				E7E78C9EE38E430AB07F2866 /* [CP] Check Pods Manifest.lock */,
 				3ACDA7DB2199E437007019FC /* Sources */,
 				3ACDA7DC2199E437007019FC /* Frameworks */,
 				3ACDA7DD2199E437007019FC /* Resources */,
+				75E9FC5EBF7F7522BC0F8D7E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -225,6 +246,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		75E9FC5EBF7F7522BC0F8D7E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Eateries/Pods-Eateries-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Eateries/Pods-Eateries-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7E78C9EE38E430AB07F2866 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Eateries-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3ACDA7DB2199E437007019FC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -234,6 +302,7 @@
 				3A2D95E121B57C5300960864 /* RestaurantAPIManager.swift in Sources */,
 				3A2D95DF21B57B4D00960864 /* APIManager.swift in Sources */,
 				3A479A1C219DDB1300658192 /* EateryDetailTableViewCell.swift in Sources */,
+				3A4C49ED21C2DC8000E5757A /* AfishaDetailViewController.swift in Sources */,
 				3A7CE16821A044D900A82E77 /* Eateries.xcdatamodeld in Sources */,
 				3ACDA7E32199E437007019FC /* AppDelegate.swift in Sources */,
 				3A7CE17421A4C44700A82E77 /* AfishaViewController.swift in Sources */,
@@ -393,9 +462,11 @@
 		};
 		3ACDA7F22199E438007019FC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CD4CF5B1690E5522445682A /* Pods-Eateries.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BZ3LH6XYZ9;
 				INFOPLIST_FILE = Eateries/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -410,9 +481,11 @@
 		};
 		3ACDA7F32199E438007019FC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB35B36251F0BE23C6CB108C /* Pods-Eateries.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BZ3LH6XYZ9;
 				INFOPLIST_FILE = Eateries/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

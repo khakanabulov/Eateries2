@@ -14,6 +14,7 @@ struct RestaurantAfisha {
     let name: String
     let location: String
     let type: String
+   // let imageView: UIImageView
     //let isVisited: Bool
 }
 //https://kudago.com/public-api/v1.2/places/?fields=id,categories,title&location=spb&categories=attract,cinema,museums&lon=37.6&lat=55.7&radius=900000&has_showings=movie&showing_since=1000000000&
@@ -29,6 +30,7 @@ extension RestaurantAfisha: JSONDecodable {
         self.name = name
         self.location = location
         self.type = "\(type)"
+        //self.imageView.image.
     }
 }
         

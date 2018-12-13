@@ -17,6 +17,7 @@ class RateViewController: UIViewController {
     @IBOutlet weak var brilliantButton: UIButton!
     var restRating: String?
     var restaurant: Restaurant?
+    var restaurantA: RestaurantAfisha?
     var restaurats: [Restaurant] = []
     var fetchResultsController: NSFetchedResultsController<Restaurant>!
     

@@ -12,26 +12,39 @@ import WebKit
 class AfishaViewController: UITableViewController {
 
     @IBAction func refreshButton(_ sender: UIBarButtonItem) {
-        tableView.beginUpdates()
+        //tableView.beginUpdates()
         tableView.reloadData()
-        tableView.endUpdates()
+       // tableView.endUpdates()
     }
     //@IBOutlet weak var AfishaTableView: UITableView!
-    
-    var restaurants: [RestaurantAfisha] = [RestaurantAfisha(name: "name", location: "location", type: "type")]
+    var searchController: UISearchController!
+    var restaurants: [RestaurantAfisha] = []
+    var filteredResultArray:[RestaurantAfisha] = []
     lazy var restaurantManager = RestaurantAPIManager(sessionConfiguration: .default)
-    var id: Int = 1
+    var id: Int = 0
     
-    
+    func filterContentFor(searchText text: String) {
+        filteredResultArray = restaurants.filter{ (restaurant) -> Bool in
+            return (restaurant.name.lowercased().contains(text.lowercased()))
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchController = UISearchController(searchResultsController: nil) // передаем nil, чтобы результаты выдавались на этом же контроллере
+        searchController.searchResultsUpdater = self // назначаем контроллер, который будет обновлять результаты
+        searchController.dimsBackgroundDuringPresentation = false // чтобы не затемнялся экран при поиске
+        searchController.searchBar.delegate = self
+        searchController.searchBar.barTintColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)  // цвет панели seatchBar
+        searchController.searchBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) // цвет шрифта
+        tableView.tableHeaderView = searchController.searchBar // в Header нашей таблицы передаем searchBar(поиск)
+        definesPresentationContext = true // свойство отвечающее за то,чтобы наш searchBar не переходил на EateryDetailVC
         tableView.estimatedRowHeight = 85 // устанавливаем ожидаемую высоту ячейки
         tableView.rowHeight = UITableView.automaticDimension // устанавливаем автоматическое вычисление высоты
         
         tableView.delegate = self
         tableView.dataSource = self
-        // DispatchQueue.main.async(execute: {
-            getRestaurantData()
+        //DispatchQueue.main.async(execute: {
+        getRestaurantData()
         //})
         }
     
@@ -50,6 +63,9 @@ class AfishaViewController: UITableViewController {
             switch result {
             case .Success(let restaurant):
                 self.updateUIWith(restaurant: restaurant)
+                DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+                })
             case .Failure(let error as NSError):
                 self.allert(title: "Unable to get data", message: error.localizedDescription, error: error)
             }
@@ -58,10 +74,22 @@ class AfishaViewController: UITableViewController {
     }
     
     // вызовем этот метод, когда у нас загружается приложение
-    func updateUIWith(restaurant: RestaurantAfisha) {
-        restaurants.insert(restaurant, at: id)
-        print(restaurants)
+    func updateUIWith(restaurant: [RestaurantAfisha]) {
+        restaurants.insert(contentsOf: restaurant, at: id)
+        //print(restaurants)
         id += 1
+    }
+    
+    // метод выбирающий какой массив выбирать (массив найденных или дефолтный)
+    func restaurantToDesplayAt(indexPath: IndexPath) -> RestaurantAfisha{
+        let restaurant: RestaurantAfisha
+        // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
+        if searchController.isActive && searchController.searchBar.text != "" {
+            restaurant = filteredResultArray[indexPath.row]
+        } else {
+            restaurant = restaurants[indexPath.row]
+        }
+        return restaurant
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -71,17 +99,20 @@ class AfishaViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(restaurants.count)
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredResultArray.count
+        } else {
             return restaurants.count
+        }
         }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("vizvals9")
         let cell = tableView.dequeueReusableCell(withIdentifier: "AfishaCell", for: indexPath) as! AfishaTableViewCell
         // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
-        let restaurant = restaurants[indexPath.row]
+        let restaurant = restaurantToDesplayAt(indexPath: indexPath)
         print("cellForRowAt")
-        print(restaurant)
+        //print(restaurant)
         //cell.thumbnailImageView.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurants[indexPath.row].image)
         //cell.thumbnailImageView.layer.cornerRadius = 32.5
         //cell.thumbnailImageView.clipsToBounds = true
@@ -97,11 +128,41 @@ class AfishaViewController: UITableViewController {
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "APIDetailSegue" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let dvc = segue.destination as! AfishaDetailViewController
+                dvc.restaurantA = self.restaurants[indexPath.row]
+                print("AAAAAAAAAAAAAAAAAA")
+                print(dvc.restaurantA)
+            }
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+extension AfishaViewController: UISearchResultsUpdating {
+    // вызывается каждый раз при изменении строки запроса
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentFor(searchText: searchController.searchBar.text!)
+        tableView.reloadData()
+    }
+}
+
+extension AfishaViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if searchBar.text == "" {
+            navigationController?.hidesBarsOnSwipe = false
+        }
+    }
     
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        navigationController?.hidesBarsOnSwipe = true
+    }
+}
 
     
 //    var url = URL(string: "https://www.afisha.ru/msk/restaurants/luchshie-restorany-v-moskve/")
