@@ -7,6 +7,7 @@ target 'Eateries' do
 
   # Pods for Eateries
 	
-pod 'Alamofire'  
+    pod 'Alamofire', '~> 4.5'
+    pod 'AlamofireImage', '~> 3.3'
 
 end

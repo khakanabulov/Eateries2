@@ -8,14 +8,11 @@
 
 import UIKit
 import WebKit
+import Alamofire
+import AlamofireImage
 
 class AfishaViewController: UITableViewController {
 
-    @IBAction func refreshButton(_ sender: UIBarButtonItem) {
-        //tableView.beginUpdates()
-        tableView.reloadData()
-       // tableView.endUpdates()
-    }
     //@IBOutlet weak var AfishaTableView: UITableView!
     var searchController: UISearchController!
     var restaurants: [RestaurantAfisha] = []
@@ -108,7 +105,7 @@ class AfishaViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("vizvals9")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AfishaCell", for: indexPath) as! AfishaTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EateriesTableViewCell
         // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
         let restaurant = restaurantToDesplayAt(indexPath: indexPath)
         print("cellForRowAt")
@@ -116,6 +113,11 @@ class AfishaViewController: UITableViewController {
         //cell.thumbnailImageView.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurants[indexPath.row].image)
         //cell.thumbnailImageView.layer.cornerRadius = 32.5
         //cell.thumbnailImageView.clipsToBounds = true
+        let url = URL(string: "https://kudago.com/media/images/place/9c/9f/9c9fe3643ec557b144a319393610e1b1.jpg")!
+        cell.thumbnailImageView!.af_setImage(withURL: url)
+        cell.thumbnailImageView!.bounds.size = CGSize(width: 65, height: 65)
+        cell.thumbnailImageView!.layer.cornerRadius = 32.5
+        cell.thumbnailImageView!.clipsToBounds = true
         cell.nameLabel.text = restaurant.name
         cell.locationLabel.text = restaurant.location
         cell.typeLabel.text = restaurant.type
