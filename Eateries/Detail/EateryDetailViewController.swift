@@ -64,14 +64,14 @@ class EateryDetailViewController: UIViewController, UITableViewDelegate, UITable
             cell.keyLabel.text = "Название"
             cell.valueLabel.text = restaurant!.name
         case 1:
-            cell.keyLabel.text = "Тип"
+            cell.keyLabel.text = "Метро"
             cell.valueLabel.text = restaurant!.type
         case 2:
             cell.keyLabel.text = "Адрес"
             cell.valueLabel.text = restaurant!.location
         case 3:
-            cell.keyLabel.text = "Я там был?"
-            cell.valueLabel.text = restaurant!.isVisited ? "Да" : "Нет"
+            cell.keyLabel.text = "Телефон"
+            cell.valueLabel.text = restaurant!.phone
         default:
             break
         }

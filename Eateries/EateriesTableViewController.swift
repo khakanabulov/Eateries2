@@ -33,7 +33,7 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
     @IBAction func close(segue: UIStoryboardSegue) {}
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.hidesBarsOnSwipe = true //возвращаем свойство навигэйшен контроллеру прятаться при скролле
+        navigationController?.hidesBarsOnSwipe = false //возвращаем свойство навигэйшен контроллеру прятаться при скролле
     }
     // метод фильтрующий наш массив restaurant в массив filteredResultArray
     func filterContentFor(searchText text: String) {
@@ -158,13 +158,13 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
         cell.thumbnailImageView.clipsToBounds = true
         cell.nameLabel.text = restaurant.name
         cell.locationLabel.text = restaurant.location
-        cell.typeLabel.text = restaurant.type
+        cell.typeLabel.text = "Метро: \(restaurant.type!)"
         //        if self.restaurantIsVisited[indexPath.row] {
         //            cell.accessoryType = .checkmark
         //        } else {
         //            cell.accessoryType = .none
         //        }
-        cell.accessoryType = restaurant.isVisited ? .checkmark : .none // Если ресторан посещали, добавляем в правой части галочку
+        //cell.accessoryType = restaurant.isVisited ? .checkmark : .none // Если ресторан посещали, добавляем в правой части галочку
         return cell
     }
     

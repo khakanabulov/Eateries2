@@ -44,7 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
                 let annotation = MKPointAnnotation() // создаем точку аннотации
                 annotation.title = self.restaurantA!.name // даем ей имя
-                annotation.subtitle = self.restaurantA!.type // даем тип
+                annotation.subtitle = self.restaurantA!.subway // даем тип
                 guard let location = placemark.location else {return} // проверяем можем ли мы получить место(в качестве широты и долготы)
                 annotation.coordinate = location.coordinate // присваиваем координатам аннотации координаты места(то что выше)
                 self.mapView.showAnnotations([annotation], animated: true) // показываем аннотации на карте
@@ -67,6 +67,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let rigthImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)) // создаем рамку для ImageView, который поместим в annotationView
         if (restaurant != nil) {
             rigthImage.image = UIImage(data: restaurant!.image! as Data)//UIImage(named: restaurant.image) // помещаем картинку в рамку
+        } else if (restaurantA != nil) {
+            let url = URL(string: (restaurantA?.imageURL)!)
+            rigthImage.af_setImage(withURL: url!)
         }
         annotationView?.rightCalloutAccessoryView = rigthImage // помещаем кратинку с рамкой в правую часть annotationView
         annotationView?.pinTintColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1) //изменяем цвет иголочки

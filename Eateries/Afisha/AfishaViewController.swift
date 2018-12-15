@@ -12,7 +12,18 @@ import Alamofire
 import AlamofireImage
 
 class AfishaViewController: UITableViewController {
-
+    
+    
+//    override lazy var refreshControl: UIRefreshControl? = {
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.addTarget(self, action: #selector(AfishaViewController.handleRefresh(_:)), for: UIControl.Event.valueChanged)
+//        refreshControl.tintColor = UIColor.red
+//
+//        return refreshControl
+//    }()
+    
+    
+    
     //@IBOutlet weak var AfishaTableView: UITableView!
     var searchController: UISearchController!
     var restaurants: [RestaurantAfisha] = []
@@ -25,6 +36,26 @@ class AfishaViewController: UITableViewController {
             return (restaurant.name.lowercased().contains(text.lowercased()))
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let userDefaults = UserDefaults.standard
+        let wasIntroWatch = userDefaults.bool(forKey: "wasIntroWatch")
+        //print(wasIntroWatch)
+        guard !wasIntroWatch else { return } //если слайды уже были просмотренны, не грузим PageVC
+        // вызываем PageViewController
+        if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "pageViewController") as? PageViewController {
+            present(pageViewController, animated: true, completion: nil)
+        }
+//        if ((tableView.refreshControl?.isRefreshing)!) {
+//            print(tableView.refreshControl?.isRefreshing)
+//            tableView.refreshControl?.beginRefreshing()
+//            getRestaurantData()
+//            tableView.refreshControl?.endRefreshing()
+//        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController = UISearchController(searchResultsController: nil) // передаем nil, чтобы результаты выдавались на этом же контроллере
@@ -40,10 +71,31 @@ class AfishaViewController: UITableViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        //DispatchQueue.main.async(execute: {
         getRestaurantData()
-        //})
+        let refreshControl: UIRefreshControl = {
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: #selector(AfishaViewController.handleRefresh(_:)), for: UIControl.Event.valueChanged)
+            refreshControl.tintColor = UIColor.green
+            
+            return refreshControl
+        }()
+        
+        self.tableView.addSubview(refreshControl)
         }
+    
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        //self.id = 0
+        restaurants.removeAll()
+        DispatchQueue.main.async(execute: {
+            self.tableView.reloadData()
+        })
+        getRestaurantData()
+        refreshControl.endRefreshing()
+    }
     
     func allert(title: String, message: String, error: NSError) {
         let allertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -55,8 +107,6 @@ class AfishaViewController: UITableViewController {
     
     func getRestaurantData() { // fetch - получить
         restaurantManager.fetchRestaurantWith() { (result) in
-            //self.toggleActivityIndicator(on: false)
-            print("result: \(result)")
             switch result {
             case .Success(let restaurant):
                 self.updateUIWith(restaurant: restaurant)
@@ -72,7 +122,7 @@ class AfishaViewController: UITableViewController {
     
     // вызовем этот метод, когда у нас загружается приложение
     func updateUIWith(restaurant: [RestaurantAfisha]) {
-        restaurants.insert(contentsOf: restaurant, at: id)
+        restaurants.insert(contentsOf: restaurant, at: 0)
         //print(restaurants)
         id += 1
     }
@@ -84,6 +134,8 @@ class AfishaViewController: UITableViewController {
         if searchController.isActive && searchController.searchBar.text != "" {
             restaurant = filteredResultArray[indexPath.row]
         } else {
+            //print(self.id)
+            print("indexPath: \(indexPath.row)")
             restaurant = restaurants[indexPath.row]
         }
         return restaurant
@@ -104,23 +156,23 @@ class AfishaViewController: UITableViewController {
         }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("vizvals9")
+        //print("vizvals9")
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EateriesTableViewCell
         // создаем условие того, чтобы когда у нас идет поиск в таблицу выводился filteredResultArray, а обычно restaurants
         let restaurant = restaurantToDesplayAt(indexPath: indexPath)
-        print("cellForRowAt")
+        //print("cellForRowAt")
         //print(restaurant)
         //cell.thumbnailImageView.image = UIImage(data: restaurant.image! as Data)//UIImage(named: restaurants[indexPath.row].image)
         //cell.thumbnailImageView.layer.cornerRadius = 32.5
         //cell.thumbnailImageView.clipsToBounds = true
-        let url = URL(string: "https://kudago.com/media/images/place/9c/9f/9c9fe3643ec557b144a319393610e1b1.jpg")!
+        let url = URL(string: restaurant.imageURL)!
         cell.thumbnailImageView!.af_setImage(withURL: url)
         cell.thumbnailImageView!.bounds.size = CGSize(width: 65, height: 65)
         cell.thumbnailImageView!.layer.cornerRadius = 32.5
         cell.thumbnailImageView!.clipsToBounds = true
         cell.nameLabel.text = restaurant.name
         cell.locationLabel.text = restaurant.location
-        cell.typeLabel.text = restaurant.type
+        cell.typeLabel.text = "Метро: \(restaurant.subway)"
         //        if self.restaurantIsVisited[indexPath.row] {
         //            cell.accessoryType = .checkmark
         //        } else {
@@ -135,14 +187,39 @@ class AfishaViewController: UITableViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let dvc = segue.destination as! AfishaDetailViewController
                 dvc.restaurantA = self.restaurants[indexPath.row]
-                print("AAAAAAAAAAAAAAAAAA")
-                print(dvc.restaurantA)
+                //print("AAAAAAAAAAAAAAAAAA")
+                //print(dvc.restaurantA)
             }
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let save = UITableViewRowAction(style: .default, title: "Добавить в избранное") { (action, indexPаth) in // добавляем всплывашку "Сохранить"
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+                let restaurant = Restaurant(context: context)
+                let saveRestaurant = self.restaurantToDesplayAt(indexPath: indexPath)
+                restaurant.name = saveRestaurant.name
+                restaurant.type = saveRestaurant.subway
+                restaurant.location = saveRestaurant.location
+                let imageUI = UIImageView()
+                let url = URL(string: saveRestaurant.imageURL)
+                imageUI.af_setImage(withURL: url!)
+                restaurant.image = imageUI.image!.pngData()
+                restaurant.phone = saveRestaurant.phoneNumber
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        save.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        return [save]
+        
     }
 }
 

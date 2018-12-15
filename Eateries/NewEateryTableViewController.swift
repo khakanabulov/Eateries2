@@ -14,26 +14,14 @@ class NewEateryTableViewController: UITableViewController, UIImagePickerControll
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var adressTextField: UITextField!
     @IBOutlet weak var typeTextField: UITextField!
-    @IBOutlet weak var yesButton: UIButton!
-    @IBOutlet weak var noButton: UIButton!
-    var isVisited = false
+    @IBOutlet weak var phoneTextField: UITextField!
     
 
-    @IBAction func toggleIsVisitedPressed(_ sender: UIButton) {
-        if sender == yesButton {
-            sender.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-            noButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-            isVisited = true
-        } else {
-            sender.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            yesButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-            isVisited = false
-        }
-        
-    }
+    
+
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        if nameTextField.text == "" || adressTextField.text == "" || typeTextField.text == "" {
+        if nameTextField.text == "" || adressTextField.text == "" || typeTextField.text == "" || phoneTextField.text == "" {
             let alert = UIAlertController(title: "Не все поля заполнены", message: "Заполните все поля", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "ОК", style: .default, handler: nil)
             alert.addAction(alertAction)
@@ -45,7 +33,7 @@ class NewEateryTableViewController: UITableViewController, UIImagePickerControll
                 restaurant.name = nameTextField.text
                 restaurant.location = adressTextField.text
                 restaurant.type = typeTextField.text
-                restaurant.isVisited = isVisited
+                restaurant.phone = phoneTextField.text
                 if let image = imageView.image {
                     restaurant.image = image.pngData() // преобразовываем PNG в Binary Data
                 // сохранили изменения в контексте, но еще не сохранили сам контекст
@@ -65,9 +53,6 @@ class NewEateryTableViewController: UITableViewController, UIImagePickerControll
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        yesButton.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        noButton.backgroundColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
         
         tableView.tableFooterView = UIView(frame: CGRect.zero) // убирает деления под ячейкам(где их нет)
         

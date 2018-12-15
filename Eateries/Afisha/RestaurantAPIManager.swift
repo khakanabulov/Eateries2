@@ -27,14 +27,14 @@ final class RestaurantAPIManager: APIManager {
         var path: String {
             switch self {
             case .Restaurant():
-                return "/places/?fields=id,categories,title&location=spb&categories=attract,cinema,museums&lon=37.6&lat=55.7&radius=900000&has_showings=movie&showing_since=1000000000&"
+                return "/places/?fields=id,categories,title,images&location=spb&categories=attract,cinema,museums&lon=37.6&lat=55.7&radius=900000&has_showings=movie&showing_since=1000000000&"
                 //return "/public-api/v1.2/places/?fields=id,categories,title&location=msk&categories=restaurant"
             }
         }
         
         var request: URLRequest {
             //let url = URL(string: path , relativeTo: baseURL) // строка path relativeTo(относительно) baseURL ПОЧЕМУ ТО НЕ РАБОТАЕТ 404
-            let url = URL(string: "https://kudago.com/public-api/v1.4/places/?fields=id,address,title&location=msk&categories=restaurants") // 400
+            let url = URL(string: "https://kudago.com/public-api/v1.4/places/?fields=subway,address,title,images,phone&location=msk&categories=restaurants") // 400
             // print(url)
             return URLRequest(url: url!)
         }
@@ -58,7 +58,7 @@ final class RestaurantAPIManager: APIManager {
         fetch(request: request, parse: { (json) -> [RestaurantAfisha]? in
             if let dictionary = json["results"] as? [[String: AnyObject]] {
                 var restauratArray: [RestaurantAfisha] = []
-                print(dictionary)
+                //print(dictionary)
                 var id = 0
                 for restaurant in dictionary {
                     restauratArray.insert(RestaurantAfisha(JSON: restaurant)!, at: id)

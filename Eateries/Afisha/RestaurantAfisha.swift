@@ -13,7 +13,10 @@ import UIKit
 struct RestaurantAfisha {
     let name: String
     let location: String
-    let type: String
+    let subway: String
+    let images: [[String: AnyObject]]
+    let imageURL: String
+    let phoneNumber: String
    // let imageView: UIImageView
     //let isVisited: Bool
 }
@@ -22,14 +25,20 @@ extension RestaurantAfisha: JSONDecodable {
     // получаем значения из JSON
     init?(JSON: [String : AnyObject]) { // на вход получаем словарь
         guard let location = JSON["address"] as? String,
-            let type = JSON["id"] as? NSNumber,
-            let name = JSON["title"] as? String
+            let type = JSON["subway"] as? String,
+            let name = JSON["title"] as? String,
+            let images = JSON["images"] as? [[String: AnyObject]],
+            let imageURL = images[0]["image"] as? String,
+            let phoneNumber = JSON["phone"] as? String
             else {
                 return nil
         }
         self.name = name
         self.location = location
-        self.type = "\(type)"
+        self.subway = "\(type)"
+        self.images = images
+        self.imageURL = imageURL
+        self.phoneNumber = phoneNumber
         //self.imageView.image.
     }
 }

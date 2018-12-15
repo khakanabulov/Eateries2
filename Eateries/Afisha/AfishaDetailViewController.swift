@@ -11,16 +11,15 @@ import UIKit
 class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var mapButton: UIButton!
-    @IBOutlet weak var rateButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageView: UIImageView!
     var restaurantA: RestaurantAfisha?
     
-    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
-        guard let svc = segue.source as? RateViewController else {return}
-        guard let rating = svc.restRating else {return}
-        rateButton.setImage(UIImage(named: rating), for: .normal)
-    }
+//    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+//        guard let svc = segue.source as? RateViewController else {return}
+//        guard let rating = svc.restRating else {return}
+//        rateButton.setImage(UIImage(named: rating), for: .normal)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.hidesBarsOnSwipe = false
@@ -34,14 +33,16 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let buttons = [rateButton, mapButton]
+        let buttons = [mapButton]
         for button in buttons {
             guard let button = button else {break}
             button.layer.cornerRadius = 5
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.white.cgColor
         }
+        //cell.thumbnailImageView!.af_setImage(withURL: url)
+        let url = URL(string: (restaurantA?.imageURL)!)
+        imageView.af_setImage(withURL: url!)
         tableView.estimatedRowHeight = 38
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView(frame: CGRect.zero) // убирает деления под ячейкам(где их нет)
@@ -67,14 +68,14 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
                 cell.keyLabel.text = "Название"
                 cell.valueLabel.text = restaurantA!.name
             case 1:
-                cell.keyLabel.text = "Тип"
-                cell.valueLabel.text = restaurantA!.type
+                cell.keyLabel.text = "Метро"
+                cell.valueLabel.text = restaurantA!.subway
             case 2:
                 cell.keyLabel.text = "Адрес"
                 cell.valueLabel.text = restaurantA!.location
             case 3:
-                cell.keyLabel.text = "Я там был?"
-                cell.valueLabel.text = "Нет"
+                cell.keyLabel.text = "Телефон"
+                cell.valueLabel.text = restaurantA!.phoneNumber
             default:
                 break
             }
@@ -92,12 +93,6 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
         if segue.identifier == "afishaMapSegue" {
             if (restaurantA != nil) {
                 let dvc = segue.destination as! MapViewController
-                dvc.restaurantA = self.restaurantA
-            }
-        }
-        if segue.identifier == "afishaSegueToRate" {
-            if (restaurantA != nil) {
-                let dvc = segue.destination as! RateViewController
                 dvc.restaurantA = self.restaurantA
             }
         }
