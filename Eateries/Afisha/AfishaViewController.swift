@@ -10,17 +10,18 @@ import UIKit
 import WebKit
 import Alamofire
 import AlamofireImage
+import CoreData
 
 class AfishaViewController: UITableViewController {
+    var fetchResultsController: NSFetchedResultsController<Restaurant>!
     
-    
-//    override lazy var refreshControl: UIRefreshControl? = {
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.addTarget(self, action: #selector(AfishaViewController.handleRefresh(_:)), for: UIControl.Event.valueChanged)
-//        refreshControl.tintColor = UIColor.red
-//
-//        return refreshControl
-//    }()
+    //    override lazy var refreshControl: UIRefreshControl? = {
+    //        let refreshControl = UIRefreshControl()
+    //        refreshControl.addTarget(self, action: #selector(AfishaViewController.handleRefresh(_:)), for: UIControl.Event.valueChanged)
+    //        refreshControl.tintColor = UIColor.red
+    //
+    //        return refreshControl
+    //    }()
     
     
     
@@ -28,6 +29,7 @@ class AfishaViewController: UITableViewController {
     var searchController: UISearchController!
     var restaurants: [RestaurantAfisha] = []
     var filteredResultArray:[RestaurantAfisha] = []
+    var restaurantObjects: [Restaurant] = []
     lazy var restaurantManager = RestaurantAPIManager(sessionConfiguration: .default)
     var id: Int = 0
     
@@ -35,6 +37,11 @@ class AfishaViewController: UITableViewController {
         filteredResultArray = restaurants.filter{ (restaurant) -> Bool in
             return (restaurant.name.lowercased().contains(text.lowercased()))
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.compareRestaurants()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,12 +54,12 @@ class AfishaViewController: UITableViewController {
         if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "pageViewController") as? PageViewController {
             present(pageViewController, animated: true, completion: nil)
         }
-//        if ((tableView.refreshControl?.isRefreshing)!) {
-//            print(tableView.refreshControl?.isRefreshing)
-//            tableView.refreshControl?.beginRefreshing()
-//            getRestaurantData()
-//            tableView.refreshControl?.endRefreshing()
-//        }
+        //        if ((tableView.refreshControl?.isRefreshing)!) {
+        //            print(tableView.refreshControl?.isRefreshing)
+        //            tableView.refreshControl?.beginRefreshing()
+        //            getRestaurantData()
+        //            tableView.refreshControl?.endRefreshing()
+        //        }
         
     }
     
@@ -72,6 +79,7 @@ class AfishaViewController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         getRestaurantData()
+        
         let refreshControl: UIRefreshControl = {
             let refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(AfishaViewController.handleRefresh(_:)), for: UIControl.Event.valueChanged)
@@ -81,7 +89,7 @@ class AfishaViewController: UITableViewController {
         }()
         
         self.tableView.addSubview(refreshControl)
-        }
+    }
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
@@ -110,8 +118,9 @@ class AfishaViewController: UITableViewController {
             switch result {
             case .Success(let restaurant):
                 self.updateUIWith(restaurant: restaurant)
+                self.compareRestaurants()
                 DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
+                    self.tableView.reloadData()
                 })
             case .Failure(let error as NSError):
                 self.allert(title: "Unable to get data", message: error.localizedDescription, error: error)
@@ -127,6 +136,41 @@ class AfishaViewController: UITableViewController {
         id += 1
     }
     
+    // метод стягивающий из памяти, избранные рестораны
+    func fetchFavorite() {
+        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию(указание того как мы хотим видеть выходные данные)
+        fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+            self.fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil) // инициализируем FetchResultController
+            self.fetchResultsController.delegate = self as? NSFetchedResultsControllerDelegate // подписываемся под то, что будем реализовывать методы протокола NSFetchedResultsControllerDelegate
+            do {
+                try self.fetchResultsController.performFetch() // пытаемся получить данные, выполняет запрос на получение, пункт throws обязывает использовать try
+                restaurantObjects = self.fetchResultsController.fetchedObjects!
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    //метод сравнивающий, есть ли в рекомендованных - избранные и выделяет, если есть
+    func compareRestaurants() {
+        fetchFavorite()
+        var i = 0
+        for restaurant in self.restaurants {
+            var finded = false
+            for restaurantObject in restaurantObjects {
+                if (restaurantObject.name == restaurant.name) {
+                    finded = true
+                }
+            }
+            self.restaurants[i].isFavorite = finded
+            //            print(self.restaurants[i].name)
+            //            print(self.restaurants[i].isFavorite)
+            i += 1
+        }
+    }
+    
     // метод выбирающий какой массив выбирать (массив найденных или дефолтный)
     func restaurantToDesplayAt(indexPath: IndexPath) -> RestaurantAfisha{
         let restaurant: RestaurantAfisha
@@ -135,7 +179,7 @@ class AfishaViewController: UITableViewController {
             restaurant = filteredResultArray[indexPath.row]
         } else {
             //print(self.id)
-            print("indexPath: \(indexPath.row)")
+            //print("indexPath: \(indexPath.row)")
             restaurant = restaurants[indexPath.row]
         }
         return restaurant
@@ -153,7 +197,7 @@ class AfishaViewController: UITableViewController {
         } else {
             return restaurants.count
         }
-        }
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //print("vizvals9")
@@ -198,28 +242,69 @@ class AfishaViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let save = UITableViewRowAction(style: .default, title: "Добавить в избранное") { (action, indexPаth) in // добавляем всплывашку "Сохранить"
-            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
-                let restaurant = Restaurant(context: context)
-                let saveRestaurant = self.restaurantToDesplayAt(indexPath: indexPath)
-                restaurant.name = saveRestaurant.name
-                restaurant.type = saveRestaurant.subway
-                restaurant.location = saveRestaurant.location
-                let imageUI = UIImageView()
-                let url = URL(string: saveRestaurant.imageURL)
-                imageUI.af_setImage(withURL: url!)
-                restaurant.image = imageUI.image!.pngData()
-                restaurant.phone = saveRestaurant.phoneNumber
-                do {
-                    try context.save()
-                } catch let error as NSError {
-                    print(error.localizedDescription)
+        compareRestaurants()
+        let saveRestaurant = self.restaurantToDesplayAt(indexPath: indexPath)
+        if (!saveRestaurant.isFavorite) {
+            let save = UITableViewRowAction(style: .default, title: "Добавить в избранное") { (action, indexPаth) in // добавляем всплывашку "Сохранить"
+                if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+                    let restaurant = Restaurant(context: context)
+                    restaurant.name = saveRestaurant.name
+                    restaurant.type = saveRestaurant.subway
+                    restaurant.location = saveRestaurant.location
+                    let imageUI = UIImageView()
+                    let url = URL(string: saveRestaurant.imageURL)
+                    imageUI.af_setImage(withURL: url!)
+                    restaurant.image = imageUI.image!.pngData()
+                    restaurant.phone = saveRestaurant.phoneNumber
+                    restaurant.isFavorite = true
+                    do {
+                        try context.save()
+                        self.restaurants[indexPath.row].isFavorite = true
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    }
                 }
             }
+            save.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            return [save]
+            
         }
-        save.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        return [save]
-        
+        //else {
+//
+//            //fetchFavorite()
+//
+//            let delete = UITableViewRowAction(style: .default, title: "Удалить") { (action, indexPаth) in // добавляем всплывашку "Удалить"
+//                var indexR: Int = 0
+//                var objectToDelete: Restaurant
+//                if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+//                    let restaurantAfisha = self.restaurants[indexPath.row]
+//                    for restaurantObject in self.restaurantObjects {
+//                        if (restaurantObject.name == restaurantAfisha.name) {
+//                            objectToDelete = restaurantObject
+//                            print(objectToDelete)
+//                            indexR = self.restaurantObjects.firstIndex(of: restaurantObject)!
+//                        } else {
+//                            print("Error")
+//                        }
+//                    }
+//                    //let restaurant =  restaurantAfisha as Restaurant
+//                    //let objectToDelete = self.fetchResultsController.object(at: <#T##IndexPath#>)// выделяем объект для удаления
+//
+//                    objectToDelete = self.restaurantObjects[indexR]
+//                    print(objectToDelete)
+//                    context.delete(objectToDelete) // удаляем объект из контекста
+//                    do {
+//                        try context.save()
+//                        self.restaurants[indexPath.row].isFavorite = false
+//                    } catch let error as NSError {
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            }
+//            delete.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+//            return [delete]
+//        }
+        return nil
     }
 }
 
@@ -243,7 +328,7 @@ extension AfishaViewController: UISearchBarDelegate {
     }
 }
 
-    
+
 //    var url = URL(string: "https://www.afisha.ru/msk/restaurants/luchshie-restorany-v-moskve/")
 //    var webView: WKWebView!
 //    var progressView: UIProgressView!

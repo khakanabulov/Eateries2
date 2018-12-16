@@ -17,6 +17,7 @@ struct RestaurantAfisha {
     let images: [[String: AnyObject]]
     let imageURL: String
     let phoneNumber: String
+    var isFavorite: Bool
    // let imageView: UIImageView
     //let isVisited: Bool
 }
@@ -39,6 +40,7 @@ extension RestaurantAfisha: JSONDecodable {
         self.images = images
         self.imageURL = imageURL
         self.phoneNumber = phoneNumber
+        self.isFavorite = false
         //self.imageView.image.
     }
 }

@@ -517,19 +517,35 @@
                                     <segue destination="0iC-TM-RCr" kind="show" identifier="afishaMapSegue" id="kXG-j7-oiD"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rr4-NO-oXy">
+                                <rect key="frame" x="309" y="132" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="rr4-NO-oXy" secondAttribute="height" multiplier="1:1" id="Jvq-cF-Xo9"/>
+                                    <constraint firstAttribute="height" constant="50" id="yOT-0d-u99"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="starN"/>
+                                <state key="selected" image="starY"/>
+                                <connections>
+                                    <action selector="favoriteButtonPressed:" destination="qRN-TJ-hr1" eventType="touchUpInside" id="VzX-Ho-FX7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="PzM-aW-lKz" firstAttribute="leading" secondItem="Ayl-bD-03t" secondAttribute="leading" id="5pu-2c-89w"/>
                             <constraint firstItem="PzM-aW-lKz" firstAttribute="top" secondItem="VfI-1Z-5Vr" secondAttribute="top" id="86F-on-4MV"/>
+                            <constraint firstItem="rr4-NO-oXy" firstAttribute="leading" secondItem="Ayl-bD-03t" secondAttribute="leading" constant="309" id="8pb-GO-6sK"/>
+                            <constraint firstItem="rr4-NO-oXy" firstAttribute="top" secondItem="FlJ-TY-G1m" secondAttribute="bottom" constant="8" id="AWD-Yz-I7c"/>
                             <constraint firstItem="PzM-aW-lKz" firstAttribute="trailing" secondItem="Ayl-bD-03t" secondAttribute="trailing" id="P1m-CL-0Eg"/>
                             <constraint firstItem="PzM-aW-lKz" firstAttribute="bottom" secondItem="Ayl-bD-03t" secondAttribute="bottom" id="ZGB-2L-ndW"/>
                             <constraint firstItem="Ayl-bD-03t" firstAttribute="trailing" secondItem="FlJ-TY-G1m" secondAttribute="trailing" constant="16" id="ghg-WD-km8"/>
                             <constraint firstItem="FlJ-TY-G1m" firstAttribute="top" secondItem="Ayl-bD-03t" secondAttribute="top" constant="10" id="nEQ-gI-IqI"/>
+                            <constraint firstItem="Ayl-bD-03t" firstAttribute="trailing" secondItem="rr4-NO-oXy" secondAttribute="trailing" constant="16" id="sWB-V7-TQX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ayl-bD-03t"/>
                     </view>
                     <connections>
+                        <outlet property="favoriteButton" destination="rr4-NO-oXy" id="WPz-yp-g6s"/>
                         <outlet property="imageView" destination="KwM-Hh-A8a" id="and-fR-95I"/>
                         <outlet property="mapButton" destination="FlJ-TY-G1m" id="eB3-rZ-Gq2"/>
                         <outlet property="tableView" destination="PzM-aW-lKz" id="biX-If-cYK"/>
@@ -966,6 +982,8 @@
         <image name="map" width="50" height="50"/>
         <image name="photo" width="170" height="170"/>
         <image name="rateBackground" width="200" height="286"/>
+        <image name="starN" width="384" height="384"/>
+        <image name="starY" width="384" height="384"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kXG-j7-oiD"/>

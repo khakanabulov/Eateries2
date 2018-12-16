@@ -13,13 +13,45 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBAction func favoriteButtonPressed(_ sender: UIButton) {
+        if (!restaurantA!.isFavorite) {
+            restaurantA?.isFavorite = true
+          let image = UIImage(named: "starY.png")
+//            favoriteButton.setImage(image, for: .selected)
+            self.favoriteButton.setImage(image, for: .normal)
+            print(self.favoriteButton.imageView?.image)
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext // инициализируем(добираемся до) контекст(а)
+            {
+                let restaurant = Restaurant(context: context)
+                restaurant.name = restaurantA!.name
+                restaurant.type = restaurantA!.subway
+                restaurant.location = restaurantA!.location
+                let imageUI = UIImageView()
+                let url = URL(string: restaurantA!.imageURL)
+                imageUI.af_setImage(withURL: url!)
+                restaurant.image = imageUI.image!.pngData()
+                restaurant.phone = restaurantA!.phoneNumber
+                restaurant.isFavorite = true
+                do {
+                    // пытаемся сохранить контекст
+                    try context.save()
+                    print("Сохранение удалось")
+                } catch let error as NSError {
+                    print("Не удалось сохранить данный \(error) \(error.userInfo)")
+                }
+            }
+        }
+        
+    }
+    
     var restaurantA: RestaurantAfisha?
     
-//    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
-//        guard let svc = segue.source as? RateViewController else {return}
-//        guard let rating = svc.restRating else {return}
-//        rateButton.setImage(UIImage(named: rating), for: .normal)
-//    }
+    //    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+    //        guard let svc = segue.source as? RateViewController else {return}
+    //        guard let rating = svc.restRating else {return}
+    //        rateButton.setImage(UIImage(named: rating), for: .normal)
+    //    }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.hidesBarsOnSwipe = false
@@ -33,12 +65,19 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let buttons = [mapButton]
+        let buttons = [mapButton, favoriteButton]
         for button in buttons {
             guard let button = button else {break}
             button.layer.cornerRadius = 5
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.white.cgColor
+        }
+        if ((restaurantA?.isFavorite)!) {
+        let imageY = UIImage(named: "starY")
+            favoriteButton.setImage(imageY, for: .normal)
+        } else {
+        let imageN = UIImage(named: "starN")
+        favoriteButton.setImage(imageN, for: .normal)
         }
         //cell.thumbnailImageView!.af_setImage(withURL: url)
         let url = URL(string: (restaurantA?.imageURL)!)
@@ -62,7 +101,7 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EateryDetailTableViewCell
-         if (restaurantA != nil) {
+        if (restaurantA != nil) {
             switch indexPath.row {
             case 0:
                 cell.keyLabel.text = "Название"

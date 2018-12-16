@@ -33,7 +33,9 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
     @IBAction func close(segue: UIStoryboardSegue) {}
     
     override func viewWillAppear(_ animated: Bool) {
+       // super.viewWillAppear(true)
         navigationController?.hidesBarsOnSwipe = false //возвращаем свойство навигэйшен контроллеру прятаться при скролле
+       // tableView.reloadData()
     }
     // метод фильтрующий наш массив restaurant в массив filteredResultArray
     func filterContentFor(searchText text: String) {
