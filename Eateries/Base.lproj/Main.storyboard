@@ -354,12 +354,16 @@
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Телефон" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TA4-y1-dDC">
                                                     <rect key="frame" x="16" y="34" width="343" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="D3B-3X-djQ"/>
+                                                        <constraint firstAttribute="height" constant="22" id="fWA-K7-f3H"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Телефон" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWS-sB-WBL">
-                                                    <rect key="frame" x="16" y="11" width="343" height="24"/>
+                                                    <rect key="frame" x="16" y="11" width="359" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="guk-6b-x8r"/>
                                                         <constraint firstAttribute="height" constant="24" id="xyL-Tc-4li"/>
@@ -371,12 +375,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="TA4-y1-dDC" firstAttribute="leading" secondItem="ovQ-I2-3vt" secondAttribute="leading" constant="16" id="1v9-gU-uQe"/>
-                                                <constraint firstAttribute="trailing" secondItem="eWS-sB-WBL" secondAttribute="trailing" constant="16" id="328-To-rc2"/>
+                                                <constraint firstAttribute="trailing" secondItem="eWS-sB-WBL" secondAttribute="trailing" id="328-To-rc2"/>
                                                 <constraint firstItem="TA4-y1-dDC" firstAttribute="top" secondItem="eWS-sB-WBL" secondAttribute="bottom" constant="-1" id="BxM-JS-eCj"/>
                                                 <constraint firstAttribute="trailing" secondItem="TA4-y1-dDC" secondAttribute="trailing" constant="16" id="EfR-bK-iU3"/>
                                                 <constraint firstItem="eWS-sB-WBL" firstAttribute="top" secondItem="ovQ-I2-3vt" secondAttribute="top" constant="11" id="Qf3-On-IvH"/>
                                                 <constraint firstItem="eWS-sB-WBL" firstAttribute="leading" secondItem="ovQ-I2-3vt" secondAttribute="leading" constant="16" id="Vdi-Kf-ysL"/>
-                                                <constraint firstItem="TA4-y1-dDC" firstAttribute="centerX" secondItem="ovQ-I2-3vt" secondAttribute="centerX" id="bHE-4a-hoH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

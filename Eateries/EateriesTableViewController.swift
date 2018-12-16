@@ -33,9 +33,24 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
     @IBAction func close(segue: UIStoryboardSegue) {}
     
     override func viewWillAppear(_ animated: Bool) {
-       // super.viewWillAppear(true)
+        super.viewWillAppear(true)
         navigationController?.hidesBarsOnSwipe = false //возвращаем свойство навигэйшен контроллеру прятаться при скролле
        // tableView.reloadData()
+        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию(указание того как мы хотим видеть выходные данные)
+        fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу
+        
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil) // инициализируем FetchResultController
+            fetchResultsController.delegate = self // подписываемся под то, что будем реализовывать методы протокола NSFetchedResultsControllerDelegate
+            do {
+                try fetchResultsController.performFetch() // пытаемся получить данные, выполняет запрос на получение, пункт throws обязывает использовать try
+                restaurants = fetchResultsController.fetchedObjects! // передаем в массив ресторанов то, что мы получили из запроса
+                tableView.reloadData()
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
     }
     // метод фильтрующий наш массив restaurant в массив filteredResultArray
     func filterContentFor(searchText text: String) {
@@ -62,20 +77,6 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // убираем имя на кнопке возвращения, чтобы оно не смещало название выбранного ресторана
         //UIApplication.shared.statusBarView?.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию(указание того как мы хотим видеть выходные данные)
-        fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу
-        
-        if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
-            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil) // инициализируем FetchResultController
-            fetchResultsController.delegate = self // подписываемся под то, что будем реализовывать методы протокола NSFetchedResultsControllerDelegate
-            do {
-                try fetchResultsController.performFetch() // пытаемся получить данные, выполняет запрос на получение, пункт throws обязывает использовать try
-                restaurants = fetchResultsController.fetchedObjects! // передаем в массив ресторанов то, что мы получили из запроса
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        }
     }
     //  как только отобразиться наш главный экран ViewDidLoad, вызывается этот метод и главный экран закроет наш PageViewController
     override func viewDidAppear(_ animated: Bool) {
@@ -92,35 +93,35 @@ class EateriesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - Fetch Results Controller Delegate
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { //контроллер вызывается перед тем как наш TableView поменяет свой контент
-        tableView.beginUpdates() // метод предупреждает TableView, что сейчас будут обновления
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        // прописали все случаи возможных изменений наших ресторанов
-        //добавления
-        //удаления
-        //изменения
-        // по дефолту обнови все
-        switch type {
-        case .insert:
-            guard let indexPath = newIndexPath else { break }
-            tableView.insertRows(at: [indexPath], with: .fade)
-        case .delete:
-            guard let indexPath = newIndexPath else { break }
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        case .update:
-            guard let indexPath = newIndexPath else { break }
-            tableView.reloadRows(at: [indexPath], with: .fade)
-        default:
-            tableView.reloadData()
-        }
-        restaurants = controller.fetchedObjects as! [Restaurant] // обновляем массив ресторанов
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { // предупредили TableView, что череда изменений закончилась
-        tableView.endUpdates()
-    }
+//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { //контроллер вызывается перед тем как наш TableView поменяет свой контент
+//        tableView.beginUpdates() // метод предупреждает TableView, что сейчас будут обновления
+//    }
+//    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//        // прописали все случаи возможных изменений наших ресторанов
+//        //добавления
+//        //удаления
+//        //изменения
+//        // по дефолту обнови все
+//        switch type {
+//        case .insert:
+//            guard let indexPath = newIndexPath else { break }
+//            tableView.insertRows(at: [indexPath], with: .fade)
+//        case .delete:
+//            guard let indexPath = newIndexPath else { break }
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        case .update:
+//            guard let indexPath = newIndexPath else { break }
+//            tableView.reloadRows(at: [indexPath], with: .fade)
+//        default:
+//            tableView.reloadData()
+//        }
+//        restaurants = controller.fetchedObjects as! [Restaurant] // обновляем массив ресторанов
+//    }
+//    
+//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { // предупредили TableView, что череда изменений закончилась
+//        tableView.endUpdates()
+//    }
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {

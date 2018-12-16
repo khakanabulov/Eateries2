@@ -13,7 +13,6 @@ import AlamofireImage
 import CoreData
 
 class AfishaViewController: UITableViewController {
-    var fetchResultsController: NSFetchedResultsController<Restaurant>!
     
     //    override lazy var refreshControl: UIRefreshControl? = {
     //        let refreshControl = UIRefreshControl()
@@ -26,6 +25,7 @@ class AfishaViewController: UITableViewController {
     
     
     //@IBOutlet weak var AfishaTableView: UITableView!
+    var fetchResultsController: NSFetchedResultsController<Restaurant>!
     var searchController: UISearchController!
     var restaurants: [RestaurantAfisha] = []
     var filteredResultArray:[RestaurantAfisha] = []
@@ -269,42 +269,42 @@ class AfishaViewController: UITableViewController {
             return [save]
             
         }
-        //else {
-//
-//            //fetchFavorite()
-//
-//            let delete = UITableViewRowAction(style: .default, title: "Удалить") { (action, indexPаth) in // добавляем всплывашку "Удалить"
-//                var indexR: Int = 0
-//                var objectToDelete: Restaurant
-//                if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
-//                    let restaurantAfisha = self.restaurants[indexPath.row]
-//                    for restaurantObject in self.restaurantObjects {
-//                        if (restaurantObject.name == restaurantAfisha.name) {
-//                            objectToDelete = restaurantObject
-//                            print(objectToDelete)
-//                            indexR = self.restaurantObjects.firstIndex(of: restaurantObject)!
-//                        } else {
-//                            print("Error")
-//                        }
-//                    }
-//                    //let restaurant =  restaurantAfisha as Restaurant
-//                    //let objectToDelete = self.fetchResultsController.object(at: <#T##IndexPath#>)// выделяем объект для удаления
-//
-//                    objectToDelete = self.restaurantObjects[indexR]
-//                    print(objectToDelete)
-//                    context.delete(objectToDelete) // удаляем объект из контекста
-//                    do {
-//                        try context.save()
-//                        self.restaurants[indexPath.row].isFavorite = false
-//                    } catch let error as NSError {
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            }
-//            delete.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-//            return [delete]
-//        }
-        return nil
+        else {
+
+            //fetchFavorite()
+
+            let delete = UITableViewRowAction(style: .default, title: "Удалить") { (action, indexPаth) in // добавляем всплывашку "Удалить"
+                var indexR: Int = 0
+                var objectToDelete: Restaurant
+                if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+                    let restaurantAfisha = self.restaurants[indexPath.row]
+                    for restaurantObject in self.restaurantObjects {
+                        if (restaurantObject.name == restaurantAfisha.name) {
+                            objectToDelete = restaurantObject
+                            print(objectToDelete)
+                            indexR = self.restaurantObjects.firstIndex(of: restaurantObject)!
+                        } else {
+                            print("Error")
+                        }
+                    }
+                    //let restaurant =  restaurantAfisha as Restaurant
+                    //let objectToDelete = self.fetchResultsController.object(at: <#T##IndexPath#>)// выделяем объект для удаления
+
+                    objectToDelete = self.restaurantObjects[indexR]
+                    print(objectToDelete)
+                    context.delete(objectToDelete) // удаляем объект из контекста
+                    do {
+                        try context.save()
+                        self.restaurants[indexPath.row].isFavorite = false
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+            delete.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            return [delete]
+        }
+        //return nil
     }
 }
 

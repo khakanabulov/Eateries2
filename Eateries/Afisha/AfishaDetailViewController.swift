@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+    var fetchResultsController: NSFetchedResultsController<Restaurant>!
+    var restaurantObjects: [Restaurant] = []
+    var restaurantA: RestaurantAfisha?
+
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageView: UIImageView!
@@ -20,7 +24,7 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
           let image = UIImage(named: "starY.png")
 //            favoriteButton.setImage(image, for: .selected)
             self.favoriteButton.setImage(image, for: .normal)
-            print(self.favoriteButton.imageView?.image)
+            //print(self.favoriteButton.imageView?.image)
             if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext // инициализируем(добираемся до) контекст(а)
             {
                 let restaurant = Restaurant(context: context)
@@ -41,11 +45,38 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
                     print("Не удалось сохранить данный \(error) \(error.userInfo)")
                 }
             }
+        } else {
+            let image = UIImage(named: "starN.png")
+            self.favoriteButton.setImage(image, for: .normal)
+            fetchFavorite()
+            var indexR: Int = 0
+            var objectToDelete: Restaurant
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+                for restaurantObject in self.restaurantObjects {
+                    if (restaurantObject.name == self.restaurantA!.name) {
+                        objectToDelete = restaurantObject
+                        print("ObjToDel: \(objectToDelete)")
+                        indexR = self.restaurantObjects.firstIndex(of: restaurantObject)!
+                    } else {
+                        print("Error")
+                    }
+                }
+                //let restaurant =  restaurantAfisha as Restaurant
+                //let objectToDelete = self.fetchResultsController.object(at: <#T##IndexPath#>)// выделяем объект для удаления
+                
+                objectToDelete = self.restaurantObjects[indexR]
+                print(objectToDelete)
+                context.delete(objectToDelete) // удаляем объект из контекста
+                do {
+                    try context.save()
+                    self.restaurantA!.isFavorite = false
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
         }
         
     }
-    
-    var restaurantA: RestaurantAfisha?
     
     //    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
     //        guard let svc = segue.source as? RateViewController else {return}
@@ -90,6 +121,21 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func fetchFavorite() {
+        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest() //создаем запрос
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true) // создаем дескриптор(фильтр) по имени по возрастанию(указание того как мы хотим видеть выходные данные)
+        fetchRequest.sortDescriptors = [sortDescriptor] // передаем фильтр запросу
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext { // создаем контекст
+            self.fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil) // инициализируем FetchResultController
+            self.fetchResultsController.delegate = self as? NSFetchedResultsControllerDelegate // подписываемся под то, что будем реализовывать методы протокола NSFetchedResultsControllerDelegate
+            do {
+                try self.fetchResultsController.performFetch() // пытаемся получить данные, выполняет запрос на получение, пункт throws обязывает использовать try
+                restaurantObjects = self.fetchResultsController.fetchedObjects!
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -127,6 +173,7 @@ class AfishaDetailViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "afishaMapSegue" {
